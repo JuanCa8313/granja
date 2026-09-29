@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { db, type GastoHogar, type RetiroUtilidad, type CategoriaGastoHogar } from '../lib/db';
 import { useAuth } from '../contexts/AuthContext';
+import { pushCambiosLocalesASupabase } from '../lib/syncService';
 import { formatCOP, formatFechaCorta } from '../lib/utils';
 import {
   Wallet,
@@ -59,6 +60,9 @@ export function CuentasCasaTab() {
 
   useEffect(() => {
     cargarDatos();
+    const handleSync = () => cargarDatos();
+    window.addEventListener('granja-db-synced', handleSync);
+    return () => window.removeEventListener('granja-db-synced', handleSync);
   }, []);
 
   const totalGastos = gastos.reduce((sum, g) => sum + g.monto, 0);
@@ -113,6 +117,7 @@ export function CuentasCasaTab() {
     setMontoGasto('');
     setDescGasto('');
     await cargarDatos();
+    pushCambiosLocalesASupabase();
   };
 
   const handleGuardarRetiro = async (e: React.FormEvent) => {
@@ -136,6 +141,7 @@ export function CuentasCasaTab() {
     setMontoRetiro('');
     setDescRetiro('');
     await cargarDatos();
+    pushCambiosLocalesASupabase();
   };
 
   const handleEliminarGasto = async (id: string) => {

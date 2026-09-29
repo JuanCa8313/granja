@@ -28,7 +28,10 @@ function GranjaAppContent() {
   useEffect(() => {
 
     setIsOnline(navigator.onLine);
-    const handleOnline = () => setIsOnline(true);
+    const handleOnline = () => {
+      setIsOnline(true);
+      import('../lib/syncService').then(({ sincronizarTodo }) => sincronizarTodo());
+    };
     const handleOffline = () => setIsOnline(false);
 
     window.addEventListener('online', handleOnline);
@@ -36,6 +39,9 @@ function GranjaAppContent() {
 
     seedInitialGranjaData().then(() => {
       setIsReady(true);
+      if (typeof window !== 'undefined' && navigator.onLine) {
+        import('../lib/syncService').then(({ sincronizarTodo }) => sincronizarTodo());
+      }
     });
 
     return () => {

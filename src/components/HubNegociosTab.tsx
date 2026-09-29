@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { db, type MetricasNegocioCache } from '../lib/db';
 import { getResumenFinancieroGlobal, resolverUrlSubApp, type ResumenFinancieroGlobal } from '../lib/hubMetricsService';
+import { sincronizarTodo } from '../lib/syncService';
 import { formatCOP } from '../lib/utils';
 import {
   ExternalLink,
@@ -21,8 +22,11 @@ export function HubNegociosTab() {
   const [resumen, setResumen] = useState<ResumenFinancieroGlobal | null>(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
-  const cargarDatos = async () => {
+  const cargarDatos = async (forzarSync = false) => {
     setIsRefreshing(true);
+    if (forzarSync && typeof window !== 'undefined' && navigator.onLine) {
+      await sincronizarTodo();
+    }
     const m = await db.metricasCache.toArray();
     const r = await getResumenFinancieroGlobal();
     setMetricas(m);
@@ -32,6 +36,9 @@ export function HubNegociosTab() {
 
   useEffect(() => {
     cargarDatos();
+    const handleSync = () => cargarDatos(false);
+    window.addEventListener('granja-db-synced', handleSync);
+    return () => window.removeEventListener('granja-db-synced', handleSync);
   }, []);
 
   return (
@@ -51,7 +58,7 @@ export function HubNegociosTab() {
             </div>
           </div>
           <button
-            onClick={cargarDatos}
+            onClick={() => cargarDatos(true)}
             className="p-1.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 text-xs flex items-center gap-1 border border-slate-700 transition"
             title="Actualizar datos"
           >
