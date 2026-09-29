@@ -16,6 +16,8 @@ export interface GastoHogar {
   descripcion: string;
   monto: number;
   metodoPago: 'efectivo' | 'banco';
+  pagadoPor?: string; // Alias: 'Juanca' | 'Alex'
+  registradoPor?: string;
   notas?: string;
   synced: boolean;
   createdAt: string;
@@ -28,6 +30,7 @@ export interface RetiroUtilidad {
   monto: number;
   descripcion: string;
   metodoPago: 'efectivo' | 'banco';
+  destinatario?: string; // 'Juanca' | 'Alex' | 'Hogar'
   synced: boolean;
   createdAt: string;
 }
@@ -62,6 +65,11 @@ export class GranjaHubDB extends Dexie {
     this.version(1).stores({
       gastosHogar: 'id, fecha, categoria, metodoPago, synced',
       retirosUtilidad: 'id, fecha, origenNegocio, synced',
+      metricasCache: 'id, estadoTipo, ultimaActualizacion',
+    });
+    this.version(2).stores({
+      gastosHogar: 'id, fecha, categoria, metodoPago, pagadoPor, synced',
+      retirosUtilidad: 'id, fecha, origenNegocio, destinatario, synced',
       metricasCache: 'id, estadoTipo, ultimaActualizacion',
     });
   }
@@ -184,6 +192,8 @@ export async function seedInitialGranjaData(): Promise<void> {
         descripcion: 'Mercado básico en el pueblo para la casa',
         monto: 160000,
         metodoPago: 'efectivo',
+        pagadoPor: 'Juanca',
+        registradoPor: 'Juanca',
         synced: true,
         createdAt: new Date().toISOString(),
       },
@@ -194,6 +204,8 @@ export async function seedInitialGranjaData(): Promise<void> {
         descripcion: 'Factura de energía de la casa',
         monto: 75000,
         metodoPago: 'banco',
+        pagadoPor: 'Alex',
+        registradoPor: 'Alex',
         synced: true,
         createdAt: new Date().toISOString(),
       },
@@ -207,6 +219,7 @@ export async function seedInitialGranjaData(): Promise<void> {
         monto: 300000,
         descripcion: 'Retiro de utilidades semanales de venta de huevos',
         metodoPago: 'efectivo',
+        destinatario: 'Juanca',
         synced: true,
         createdAt: new Date().toISOString(),
       },

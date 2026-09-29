@@ -23,8 +23,29 @@ export const AUTHORIZED_EMAILS = [
   'admin@finca.com',
 ];
 
+export function getUserAlias(user?: AuthUserGranja | null): 'Juanca' | 'Alex' | string {
+  if (!user) return 'Juanca';
+  const email = (user.email || '').toLowerCase().trim();
+  const name = (user.name || '').toLowerCase().trim();
+
+  if (email.includes('alex') || name.includes('alex') || name.includes('zapata') || name.includes('fredy')) {
+    return 'Alex';
+  }
+  if (
+    email.includes('juanca') ||
+    email.includes('camilo') ||
+    name.includes('juan') ||
+    name.includes('camilo') ||
+    name.includes('dueño')
+  ) {
+    return 'Juanca';
+  }
+  return user.name || 'Juanca';
+}
+
 interface AuthContextType {
   user: AuthUserGranja | null;
+  userAlias: string;
   isLoading: boolean;
   isAdmin: boolean;
   isOperador: boolean;
@@ -150,11 +171,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const isAdmin = !!user?.roles.includes('administrador');
   const isOperador = !!user?.roles.includes('operador_granja');
+  const userAlias = getUserAlias(user);
 
   return (
     <AuthContext.Provider
       value={{
         user,
+        userAlias,
         isLoading,
         isAdmin,
         isOperador,

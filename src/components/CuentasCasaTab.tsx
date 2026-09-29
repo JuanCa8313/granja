@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { db, type GastoHogar, type RetiroUtilidad, type CategoriaGastoHogar } from '../lib/db';
+import { useAuth } from '../contexts/AuthContext';
 import { formatCOP, formatFechaCorta } from '../lib/utils';
 import {
   Wallet,
@@ -18,9 +19,11 @@ import {
   AlertCircle,
   Trash2,
   ArrowDownLeft,
+  Users,
 } from 'lucide-react';
 
 export function CuentasCasaTab() {
+  const { userAlias } = useAuth();
   const [gastos, setGastos] = useState<GastoHogar[]>([]);
   const [retiros, setRetiros] = useState<RetiroUtilidad[]>([]);
   const [activeSubTab, setActiveSubTab] = useState<'gastos' | 'retiros'>('gastos');
@@ -30,12 +33,22 @@ export function CuentasCasaTab() {
   const [categoriaGasto, setCategoriaGasto] = useState<CategoriaGastoHogar>('mercado');
   const [descGasto, setDescGasto] = useState('');
   const [metodoPagoGasto, setMetodoPagoGasto] = useState<'efectivo' | 'banco'>('efectivo');
+  const [pagadoPorGasto, setPagadoPorGasto] = useState<string>(userAlias || 'Juanca');
 
   // Formulario de Retiro
   const [montoRetiro, setMontoRetiro] = useState('');
   const [origenRetiro, setOrigenRetiro] = useState<'gallinas' | 'pollos' | 'cultivos' | 'general'>('gallinas');
   const [descRetiro, setDescRetiro] = useState('');
   const [metodoPagoRetiro, setMetodoPagoRetiro] = useState<'efectivo' | 'banco'>('efectivo');
+  const [destinatarioRetiro, setDestinatarioRetiro] = useState<string>(userAlias || 'Juanca');
+
+  // Sincronizar alias del usuario conectado por defecto
+  useEffect(() => {
+    if (userAlias) {
+      setPagadoPorGasto(userAlias);
+      setDestinatarioRetiro(userAlias);
+    }
+  }, [userAlias]);
 
   const cargarDatos = async () => {
     const g = await db.gastosHogar.reverse().toArray();
@@ -51,6 +64,22 @@ export function CuentasCasaTab() {
   const totalGastos = gastos.reduce((sum, g) => sum + g.monto, 0);
   const totalRetiros = retiros.reduce((sum, r) => sum + r.monto, 0);
   const flujoLibre = totalRetiros - totalGastos;
+
+  const normalizarAlias = (nombre?: string): 'Juanca' | 'Alex' | 'Otro' => {
+    if (!nombre) return 'Juanca';
+    const n = nombre.toLowerCase().trim();
+    if (n.includes('alex') || n.includes('zapata') || n.includes('fredy')) return 'Alex';
+    if (n.includes('juanca') || n.includes('camilo') || n.includes('juan')) return 'Juanca';
+    return 'Otro';
+  };
+
+  const gastosJuanca = gastos
+    .filter((g) => normalizarAlias(g.pagadoPor) === 'Juanca')
+    .reduce((sum, g) => sum + g.monto, 0);
+
+  const gastosAlex = gastos
+    .filter((g) => normalizarAlias(g.pagadoPor) === 'Alex')
+    .reduce((sum, g) => sum + g.monto, 0);
 
   const categoriasMeta: Record<CategoriaGastoHogar, { label: string; icon: any; color: string }> = {
     mercado: { label: 'Mercado', icon: ShoppingCart, color: 'text-amber-600 bg-amber-50 border-amber-200' },
@@ -74,6 +103,8 @@ export function CuentasCasaTab() {
       descripcion: descGasto.trim() || `Gasto de ${categoriasMeta[categoriaGasto].label}`,
       monto: valor,
       metodoPago: metodoPagoGasto,
+      pagadoPor: pagadoPorGasto.trim() || userAlias || 'Juanca',
+      registradoPor: userAlias,
       synced: false,
       createdAt: new Date().toISOString(),
     };
@@ -96,6 +127,7 @@ export function CuentasCasaTab() {
       monto: valor,
       descripcion: descRetiro.trim() || `Retiro de utilidades de ${origenRetiro}`,
       metodoPago: metodoPagoRetiro,
+      destinatario: destinatarioRetiro.trim() || userAlias || 'Juanca',
       synced: false,
       createdAt: new Date().toISOString(),
     };
@@ -150,7 +182,19 @@ export function CuentasCasaTab() {
           </div>
         </div>
 
-        <p className="text-[10px] text-slate-400 mt-3 pt-2.5 border-t border-slate-700/60 text-center">
+        {/* Aporte de gastos por socio */}
+        <div className="mt-3 pt-3 border-t border-slate-700/60 grid grid-cols-2 gap-2 text-center text-xs">
+          <div className="bg-slate-800/50 p-2.5 rounded-2xl border border-amber-500/30">
+            <span className="text-[10px] uppercase font-bold text-amber-300 block">👑 Puesto por Juanca</span>
+            <span className="text-sm font-black text-white">{formatCOP(gastosJuanca)}</span>
+          </div>
+          <div className="bg-slate-800/50 p-2.5 rounded-2xl border border-emerald-500/30">
+            <span className="text-[10px] uppercase font-bold text-emerald-300 block">💼 Puesto por Alex</span>
+            <span className="text-sm font-black text-white">{formatCOP(gastosAlex)}</span>
+          </div>
+        </div>
+
+        <p className="text-[10px] text-slate-400 mt-2.5 text-center">
           Regla de Oro: Las utilidades de los negocios cubren el sustento de la familia sin descapitalizar la granja.
         </p>
       </div>
@@ -236,6 +280,38 @@ export function CuentasCasaTab() {
             </div>
           </div>
 
+          {/* Selector de Quién puso el dinero (Alias) */}
+          <div>
+            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5 flex items-center justify-between">
+              <span>¿Quién puso este gasto? (Socio)</span>
+              <span className="text-[9px] text-slate-400 font-normal">alias activo: <b className="text-slate-600">{userAlias}</b></span>
+            </label>
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                onClick={() => setPagadoPorGasto('Juanca')}
+                className={`py-2 px-3 rounded-2xl text-xs font-black border transition flex items-center justify-center gap-2 cursor-pointer ${
+                  pagadoPorGasto === 'Juanca'
+                    ? 'bg-amber-500/15 border-amber-500 text-amber-900 ring-2 ring-amber-400 shadow-xs'
+                    : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'
+                }`}
+              >
+                <span>👑 Juanca</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setPagadoPorGasto('Alex')}
+                className={`py-2 px-3 rounded-2xl text-xs font-black border transition flex items-center justify-center gap-2 cursor-pointer ${
+                  pagadoPorGasto === 'Alex'
+                    ? 'bg-emerald-500/15 border-emerald-500 text-emerald-900 ring-2 ring-emerald-400 shadow-xs'
+                    : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'
+                }`}
+              >
+                <span>💼 Alex</span>
+              </button>
+            </div>
+          </div>
+
           <div className="grid grid-cols-2 gap-2">
             <div>
               <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
@@ -270,7 +346,7 @@ export function CuentasCasaTab() {
             className="w-full py-3 bg-rose-600 hover:bg-rose-700 text-white font-black text-xs rounded-2xl shadow-sm transition active:scale-95 cursor-pointer flex items-center justify-center gap-2"
           >
             <TrendingDown className="w-4 h-4" />
-            <span>Registrar Salida de Dinero</span>
+            <span>Registrar Salida de Dinero ({pagadoPorGasto})</span>
           </button>
         </form>
       )}
@@ -298,6 +374,37 @@ export function CuentasCasaTab() {
                 placeholder="0"
                 className="w-full pl-8 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl font-black text-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500"
               />
+            </div>
+          </div>
+
+          {/* Selector de Quién recibe la utilidad */}
+          <div>
+            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">
+              ¿Quién recibe esta utilidad?
+            </label>
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                onClick={() => setDestinatarioRetiro('Juanca')}
+                className={`py-2 px-3 rounded-2xl text-xs font-black border transition flex items-center justify-center gap-2 cursor-pointer ${
+                  destinatarioRetiro === 'Juanca'
+                    ? 'bg-amber-500/15 border-amber-500 text-amber-900 ring-2 ring-amber-400 shadow-xs'
+                    : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'
+                }`}
+              >
+                <span>👑 Juanca</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setDestinatarioRetiro('Alex')}
+                className={`py-2 px-3 rounded-2xl text-xs font-black border transition flex items-center justify-center gap-2 cursor-pointer ${
+                  destinatarioRetiro === 'Alex'
+                    ? 'bg-emerald-500/15 border-emerald-500 text-emerald-900 ring-2 ring-emerald-400 shadow-xs'
+                    : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'
+                }`}
+              >
+                <span>💼 Alex</span>
+              </button>
             </div>
           </div>
 
@@ -379,8 +486,19 @@ export function CuentasCasaTab() {
                     <TrendingDown className="w-4 h-4" />
                   </div>
                   <div>
-                    <p className="font-bold text-slate-800">{g.descripcion}</p>
-                    <p className="text-[10px] text-slate-400 capitalize">
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      <p className="font-bold text-slate-800">{g.descripcion}</p>
+                      <span
+                        className={`text-[9px] px-1.5 py-0.5 rounded-md font-black uppercase tracking-wider ${
+                          (g.pagadoPor || '').toLowerCase().includes('alex')
+                            ? 'bg-emerald-100 text-emerald-800 border border-emerald-200'
+                            : 'bg-amber-100 text-amber-800 border border-amber-200'
+                        }`}
+                      >
+                        👤 {g.pagadoPor || 'Juanca'}
+                      </span>
+                    </div>
+                    <p className="text-[10px] text-slate-400 capitalize mt-0.5">
                       {formatFechaCorta(g.fecha)} • {g.categoria} • {g.metodoPago}
                     </p>
                   </div>
@@ -409,8 +527,15 @@ export function CuentasCasaTab() {
                     <TrendingUp className="w-4 h-4" />
                   </div>
                   <div>
-                    <p className="font-bold text-slate-800">{r.descripcion}</p>
-                    <p className="text-[10px] text-emerald-700 capitalize">
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      <p className="font-bold text-slate-800">{r.descripcion}</p>
+                      {r.destinatario && (
+                        <span className="text-[9px] px-1.5 py-0.5 rounded-md font-black uppercase tracking-wider bg-emerald-200/70 text-emerald-900 border border-emerald-300">
+                          👤 {r.destinatario}
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-[10px] text-emerald-700 capitalize mt-0.5">
                       {formatFechaCorta(r.fecha)} • Utilidad de {r.origenNegocio}
                     </p>
                   </div>
