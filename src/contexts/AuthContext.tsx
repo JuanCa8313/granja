@@ -121,14 +121,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const loginWithGoogle = async () => {
     const supabase = getSupabaseClient();
-    if (!supabase) return;
+    if (!supabase) {
+      alert('Error: Supabase client no disponible.');
+      return;
+    }
     const redirectUrl = typeof window !== 'undefined' ? window.location.origin : undefined;
-    await supabase.auth.signInWithOAuth({
+    const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
         redirectTo: redirectUrl,
       },
     });
+    if (error) {
+      console.error('Error al iniciar sesión con Google:', error);
+      alert('Error de autenticación con Google: ' + error.message);
+    }
   };
 
   const logout = async () => {

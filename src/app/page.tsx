@@ -18,10 +18,14 @@ function GranjaAppContent() {
 
   const { user, loginRapido, logout, isLoading } = useAuth();
 
+  // Limpiar el hash de la URL (#access_token=...) únicamente después de que Supabase haya establecido el usuario
   useEffect(() => {
-    if (typeof window !== 'undefined' && window.location.hash.includes('access_token')) {
+    if (user && typeof window !== 'undefined' && window.location.hash.includes('access_token')) {
       window.history.replaceState(null, '', window.location.pathname + window.location.search);
     }
+  }, [user]);
+
+  useEffect(() => {
 
     setIsOnline(navigator.onLine);
     const handleOnline = () => setIsOnline(true);
