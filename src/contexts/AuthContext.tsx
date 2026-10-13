@@ -49,7 +49,7 @@ interface AuthContextType {
   isLoading: boolean;
   isAdmin: boolean;
   isOperador: boolean;
-  loginRapido: (rol: AppRoleGranja) => void;
+  loginRapido: (rol: AppRoleGranja, socio?: 'Juanca' | 'Alex') => void;
   loginWithGoogle: () => Promise<void>;
   logout: () => void;
 }
@@ -121,17 +121,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  const loginRapido = (rol: AppRoleGranja) => {
-    const rolesMap: Record<AppRoleGranja, { name: string; email: string }> = {
-      administrador: { name: 'Juan Carlos (Dueño)', email: 'admin@granja.com' },
-      operador_granja: { name: 'Administrador de Granja', email: 'mayordomo@granja.com' },
-    };
+  const loginRapido = (rol: AppRoleGranja, socio?: 'Juanca' | 'Alex') => {
+    if (rol === 'administrador') {
+      const isAlex = socio === 'Alex';
+      const newUser: AuthUserGranja = {
+        id: isAlex ? 'usr-alex-admin' : 'usr-juanca-admin',
+        email: isAlex ? 'alex@alexzapata.com' : 'juanca.arcilav@gmail.com',
+        name: isAlex ? 'Fredy Alexander Zapata (Socio Admin)' : 'Juan Carlos Arcila (Socio Admin)',
+        roles: ['administrador'],
+        granjaNombre: 'Granja Matriz 2.200 msnm',
+        fincaNombre: 'Granja Matriz 2.200 msnm',
+      };
+      setUser(newUser);
+      localStorage.setItem('granja_auth_user', JSON.stringify(newUser));
+      return;
+    }
 
     const newUser: AuthUserGranja = {
-      id: 'usr-' + rol,
-      email: rolesMap[rol].email,
-      name: rolesMap[rol].name,
-      roles: [rol],
+      id: 'usr-operador',
+      email: 'mayordomo@granja.com',
+      name: 'Operador de Granja',
+      roles: ['operador_granja'],
       granjaNombre: 'Granja Matriz 2.200 msnm',
       fincaNombre: 'Granja Matriz 2.200 msnm',
     };

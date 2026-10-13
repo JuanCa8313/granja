@@ -111,23 +111,50 @@ function GranjaAppContent() {
                   <div className="px-2 py-1 text-[10px] font-bold uppercase text-slate-400">
                     Cambiar Perfil (RBAC)
                   </div>
-                  {(['administrador', 'operador_granja'] as AppRoleGranja[]).map((r) => (
-                    <button
-                      key={r}
-                      onClick={() => {
-                        loginRapido(r);
-                        setShowRoleSelector(false);
-                      }}
-                      className={`w-full text-left px-2.5 py-1.5 rounded-xl font-semibold capitalize flex items-center justify-between ${
-                        user?.roles.includes(r)
-                          ? 'bg-amber-50 text-amber-800 font-bold'
-                          : 'text-slate-700 hover:bg-slate-50'
-                      }`}
-                    >
-                      {r.replace('_', ' ')}
-                      {user?.roles.includes(r) && <span className="text-[10px]">✓</span>}
-                    </button>
-                  ))}
+                  <button
+                    onClick={() => {
+                      loginRapido('administrador', 'Juanca');
+                      setShowRoleSelector(false);
+                    }}
+                    className={`w-full text-left px-2.5 py-1.5 rounded-xl font-semibold flex items-center justify-between cursor-pointer ${
+                      user?.email?.includes('juanca') || user?.email?.includes('admin@granja')
+                        ? 'bg-amber-50 text-amber-900 font-bold'
+                        : 'text-slate-700 hover:bg-slate-50'
+                    }`}
+                  >
+                    <span>👑 Juanca (Admin)</span>
+                    {(user?.email?.includes('juanca') || user?.email?.includes('admin@granja')) && <span className="text-[10px]">✓</span>}
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      loginRapido('administrador', 'Alex');
+                      setShowRoleSelector(false);
+                    }}
+                    className={`w-full text-left px-2.5 py-1.5 rounded-xl font-semibold flex items-center justify-between cursor-pointer ${
+                      user?.email === 'alex@alexzapata.com'
+                        ? 'bg-emerald-50 text-emerald-900 font-bold'
+                        : 'text-slate-700 hover:bg-slate-50'
+                    }`}
+                  >
+                    <span>💼 Alex (Admin)</span>
+                    {user?.email === 'alex@alexzapata.com' && <span className="text-[10px]">✓</span>}
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      loginRapido('operador_granja');
+                      setShowRoleSelector(false);
+                    }}
+                    className={`w-full text-left px-2.5 py-1.5 rounded-xl font-semibold flex items-center justify-between cursor-pointer ${
+                      user?.roles.includes('operador_granja')
+                        ? 'bg-slate-100 text-slate-900 font-bold'
+                        : 'text-slate-700 hover:bg-slate-50'
+                    }`}
+                  >
+                    <span>👨‍🌾 Operador Granja</span>
+                    {user?.roles.includes('operador_granja') && <span className="text-[10px]">✓</span>}
+                  </button>
 
                   <div className="pt-1.5 mt-1 border-t border-slate-100">
                     <button

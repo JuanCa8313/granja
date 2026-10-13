@@ -75,22 +75,29 @@ export default function LoginScreen({ isOnline }: LoginScreenProps) {
             <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block text-center mb-2.5">
               O entra en Modo Granja (Offline)
             </span>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-2 mb-2">
               <button
                 type="button"
-                onClick={() => loginRapido('administrador')}
-                className="py-2.5 px-3 bg-slate-700/70 hover:bg-slate-700 text-amber-300 font-bold text-xs rounded-xl border border-slate-600 transition flex items-center justify-center gap-1.5 active:scale-95"
+                onClick={() => loginRapido('administrador', 'Juanca')}
+                className="py-2.5 px-3 bg-slate-700/70 hover:bg-slate-700 text-amber-300 font-bold text-xs rounded-xl border border-slate-600 transition flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer"
               >
-                <span>👑 Dueño</span>
+                <span>👑 Juanca (Admin)</span>
               </button>
               <button
                 type="button"
-                onClick={() => loginRapido('operador_granja')}
-                className="py-2.5 px-3 bg-slate-700/70 hover:bg-slate-700 text-slate-200 font-bold text-xs rounded-xl border border-slate-600 transition flex items-center justify-center gap-1.5 active:scale-95"
+                onClick={() => loginRapido('administrador', 'Alex')}
+                className="py-2.5 px-3 bg-slate-700/70 hover:bg-slate-700 text-emerald-300 font-bold text-xs rounded-xl border border-slate-600 transition flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer"
               >
-                <span>👨‍🌾 Administrador</span>
+                <span>💼 Alex (Admin)</span>
               </button>
             </div>
+            <button
+              type="button"
+              onClick={() => loginRapido('operador_granja')}
+              className="w-full py-2 px-3 bg-slate-800/80 hover:bg-slate-700 text-slate-300 font-semibold text-xs rounded-xl border border-slate-700 transition flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer"
+            >
+              <span>👨‍🌾 Operador de Granja</span>
+            </button>
           </div>
 
           <p className="text-[11px] text-center text-slate-400 flex items-center justify-center gap-1.5 pt-2">
