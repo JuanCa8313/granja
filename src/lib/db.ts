@@ -55,10 +55,24 @@ export interface MetricasNegocioCache {
   ultimaActualizacion: string;
 }
 
+export interface AbonoSocio {
+  id: string;
+  fecha: string; // YYYY-MM-DD
+  monto: number;
+  pagadoPor: string;   // 'Camilo' | 'Alex'
+  recibidoPor: string; // 'Alex' | 'Camilo'
+  metodoPago: 'efectivo' | 'banco';
+  descripcion?: string; // Ej: 'Abono gastos casa mayo', 'Dinero deb'
+  notas?: string;
+  synced: boolean;
+  createdAt: string;
+}
+
 export class GranjaHubDB extends Dexie {
   gastosHogar!: EntityTable<GastoHogar, 'id'>;
   retirosUtilidad!: EntityTable<RetiroUtilidad, 'id'>;
   metricasCache!: EntityTable<MetricasNegocioCache, 'id'>;
+  abonosSocios!: EntityTable<AbonoSocio, 'id'>;
 
   constructor() {
     super('GranjaHubDB');
@@ -71,6 +85,12 @@ export class GranjaHubDB extends Dexie {
       gastosHogar: 'id, fecha, categoria, metodoPago, pagadoPor, synced',
       retirosUtilidad: 'id, fecha, origenNegocio, destinatario, synced',
       metricasCache: 'id, estadoTipo, ultimaActualizacion',
+    });
+    this.version(3).stores({
+      gastosHogar: 'id, fecha, categoria, metodoPago, pagadoPor, synced',
+      retirosUtilidad: 'id, fecha, origenNegocio, destinatario, synced',
+      metricasCache: 'id, estadoTipo, ultimaActualizacion',
+      abonosSocios: 'id, fecha, pagadoPor, recibidoPor, synced',
     });
   }
 }
@@ -227,6 +247,25 @@ export async function seedInitialGranjaData(): Promise<void> {
 
     await db.gastosHogar.bulkAdd(initialGastos);
     await db.retirosUtilidad.bulkAdd(initialRetiros);
+  }
+
+  const abonosCount = await db.abonosSocios.count();
+  if (abonosCount === 0) {
+    const today = new Date().toISOString().split('T')[0];
+    const initialAbonos: AbonoSocio[] = [
+      {
+        id: 'ab-1',
+        fecha: today,
+        monto: 200000,
+        pagadoPor: 'Camilo',
+        recibidoPor: 'Alex',
+        metodoPago: 'banco',
+        descripcion: 'Abono a cuenta común gastos del hogar',
+        synced: true,
+        createdAt: new Date().toISOString(),
+      },
+    ];
+    await db.abonosSocios.bulkAdd(initialAbonos);
   }
 }
 

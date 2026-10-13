@@ -38,6 +38,24 @@ CREATE TABLE IF NOT EXISTS granja_retiros_utilidad (
 CREATE INDEX IF NOT EXISTS idx_granja_retiros_fecha ON granja_retiros_utilidad(fecha);
 CREATE INDEX IF NOT EXISTS idx_granja_retiros_origen ON granja_retiros_utilidad(origen_negocio);
 
+-- 2.1 TABLA: ABONOS ENTRE SOCIOS PARA SALDAR DEUDAS DE GASTOS COMPARTIDOS
+CREATE TABLE IF NOT EXISTS granja_abonos_socios (
+    id TEXT PRIMARY KEY,
+    fecha DATE NOT NULL DEFAULT CURRENT_DATE,
+    monto NUMERIC(12, 2) NOT NULL DEFAULT 0,
+    pagado_por TEXT NOT NULL,     -- 'Camilo', 'Alex' (Quien entrega el dinero)
+    recibido_por TEXT NOT NULL,   -- 'Alex', 'Camilo' (Quien recibe el dinero)
+    metodo_pago TEXT NOT NULL DEFAULT 'efectivo', -- 'efectivo', 'banco'
+    descripcion TEXT,
+    notas TEXT,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_granja_abonos_fecha ON granja_abonos_socios(fecha);
+CREATE INDEX IF NOT EXISTS idx_granja_abonos_pagado ON granja_abonos_socios(pagado_por);
+CREATE INDEX IF NOT EXISTS idx_granja_abonos_recibido ON granja_abonos_socios(recibido_por);
+
 -- 3. TABLA: MÉTRICAS Y SALDOS DE CAJA DE LAS LÍNEAS DE NEGOCIO
 CREATE TABLE IF NOT EXISTS granja_metricas_negocios (
     id TEXT PRIMARY KEY, -- 'gallinas', 'pollos', 'cultivos', 'pescados', 'mosca', 'fertilizantes'
@@ -72,6 +90,7 @@ SELECT
 -- 5. HABILITAR SEGURIDAD RLS (Row Level Security)
 ALTER TABLE granja_gastos_hogar ENABLE ROW LEVEL SECURITY;
 ALTER TABLE granja_retiros_utilidad ENABLE ROW LEVEL SECURITY;
+ALTER TABLE granja_abonos_socios ENABLE ROW LEVEL SECURITY;
 ALTER TABLE granja_metricas_negocios ENABLE ROW LEVEL SECURITY;
 
 DO $$ 
@@ -81,6 +100,9 @@ BEGIN
 
     DROP POLICY IF EXISTS "Permitir todo anon granja_retiros_utilidad" ON granja_retiros_utilidad;
     CREATE POLICY "Permitir todo anon granja_retiros_utilidad" ON granja_retiros_utilidad FOR ALL USING (true) WITH CHECK (true);
+
+    DROP POLICY IF EXISTS "Permitir todo anon granja_abonos_socios" ON granja_abonos_socios;
+    CREATE POLICY "Permitir todo anon granja_abonos_socios" ON granja_abonos_socios FOR ALL USING (true) WITH CHECK (true);
 
     DROP POLICY IF EXISTS "Permitir todo anon granja_metricas_negocios" ON granja_metricas_negocios;
     CREATE POLICY "Permitir todo anon granja_metricas_negocios" ON granja_metricas_negocios FOR ALL USING (true) WITH CHECK (true);

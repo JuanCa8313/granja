@@ -1,4 +1,4 @@
-import { db, type GastoHogar, type RetiroUtilidad, type MetricasNegocioCache } from './db';
+import { db, type GastoHogar, type RetiroUtilidad, type MetricasNegocioCache, type AbonoSocio } from './db';
 import { getSupabaseClient } from './supabase';
 
 export interface SyncStatus {
@@ -18,16 +18,17 @@ export function notificarCambioDatos(origen: string = 'sync') {
 }
 
 /**
- * Sube registros pendientes locales (gastos y retiros no sincronizados) hacia Supabase.
+ * Sube registros pendientes locales (gastos, retiros y abonos no sincronizados) hacia Supabase.
  */
-export async function pushCambiosLocalesASupabase(): Promise<{ gastosSubidos: number; retirosSubidos: number }> {
+export async function pushCambiosLocalesASupabase(): Promise<{ gastosSubidos: number; retirosSubidos: number; abonosSubidos: number }> {
   const supabase = getSupabaseClient();
   if (!supabase || typeof window === 'undefined' || !navigator.onLine) {
-    return { gastosSubidos: 0, retirosSubidos: 0 };
+    return { gastosSubidos: 0, retirosSubidos: 0, abonosSubidos: 0 };
   }
 
   let gastosSubidos = 0;
   let retirosSubidos = 0;
+  let abonosSubidos = 0;
 
   try {
     // 1. Gastos pendientes
@@ -84,11 +85,38 @@ export async function pushCambiosLocalesASupabase(): Promise<{ gastosSubidos: nu
         retirosSubidos = retirosPendientes.length;
       }
     }
+
+    // 3. Abonos entre socios pendientes
+    const abonosPendientes = await db.abonosSocios.filter((a) => !a.synced).toArray();
+    if (abonosPendientes.length > 0) {
+      const payload = abonosPendientes.map((a) => ({
+        id: a.id,
+        fecha: a.fecha,
+        monto: a.monto,
+        pagado_por: a.pagadoPor,
+        recibido_por: a.recibidoPor,
+        metodo_pago: a.metodoPago,
+        descripcion: a.descripcion || null,
+        notas: a.notas || null,
+        created_at: a.createdAt,
+      }));
+
+      const { error } = await supabase.from('granja_abonos_socios').upsert(payload, { onConflict: 'id' });
+      if (!error) {
+        await db.abonosSocios.bulkUpdate(
+          abonosPendientes.map((a) => ({
+            key: a.id,
+            changes: { synced: true },
+          }))
+        );
+        abonosSubidos = abonosPendientes.length;
+      }
+    }
   } catch (err) {
     console.warn('Error en pushCambiosLocalesASupabase:', err);
   }
 
-  return { gastosSubidos, retirosSubidos };
+  return { gastosSubidos, retirosSubidos, abonosSubidos };
 }
 
 /**
@@ -145,6 +173,29 @@ export async function descargarDeSupabase(): Promise<boolean> {
       }));
 
       await db.retirosUtilidad.bulkPut(mapRetiros);
+    }
+
+    // 2.1 Descargar abonos entre socios
+    const { data: remoteAbonos, error: errAbonos } = await supabase
+      .from('granja_abonos_socios')
+      .select('*')
+      .order('fecha', { ascending: false });
+
+    if (!errAbonos && remoteAbonos && remoteAbonos.length > 0) {
+      const mapAbonos: AbonoSocio[] = remoteAbonos.map((ra: any) => ({
+        id: ra.id,
+        fecha: ra.fecha,
+        monto: Number(ra.monto),
+        pagadoPor: ra.pagado_por,
+        recibidoPor: ra.recibido_por,
+        metodoPago: ra.metodo_pago,
+        descripcion: ra.descripcion,
+        notas: ra.notas,
+        synced: true,
+        createdAt: ra.created_at,
+      }));
+
+      await db.abonosSocios.bulkPut(mapAbonos);
     }
 
     // 3. Descargar métricas de negocios
