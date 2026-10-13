@@ -202,70 +202,38 @@ export async function seedInitialGranjaData(): Promise<void> {
   }
 
   const gastosCount = await db.gastosHogar.count();
-  if (gastosCount === 0) {
-    const today = new Date().toISOString().split('T')[0];
-    const initialGastos: GastoHogar[] = [
-      {
-        id: 'gh-1',
-        fecha: today,
-        categoria: 'mercado',
-        descripcion: 'Mercado básico en el pueblo para la casa',
-        monto: 160000,
-        metodoPago: 'efectivo',
-        pagadoPor: 'Juanca',
-        registradoPor: 'Juanca',
-        synced: true,
-        createdAt: new Date().toISOString(),
-      },
-      {
-        id: 'gh-2',
-        fecha: today,
-        categoria: 'servicios',
-        descripcion: 'Factura de energía de la casa',
-        monto: 75000,
-        metodoPago: 'banco',
-        pagadoPor: 'Alex',
-        registradoPor: 'Alex',
-        synced: true,
-        createdAt: new Date().toISOString(),
-      },
-    ];
-
-    const initialRetiros: RetiroUtilidad[] = [
-      {
-        id: 'ret-1',
-        fecha: today,
-        origenNegocio: 'gallinas',
-        monto: 300000,
-        descripcion: 'Retiro de utilidades semanales de venta de huevos',
-        metodoPago: 'efectivo',
-        destinatario: 'Juanca',
-        synced: true,
-        createdAt: new Date().toISOString(),
-      },
-    ];
-
-    await db.gastosHogar.bulkAdd(initialGastos);
-    await db.retirosUtilidad.bulkAdd(initialRetiros);
+  if (gastosCount <= 2) {
+    await cargarHistorialWhatsAppEnDexie(true);
   }
+}
 
-  const abonosCount = await db.abonosSocios.count();
-  if (abonosCount === 0) {
-    const today = new Date().toISOString().split('T')[0];
-    const initialAbonos: AbonoSocio[] = [
-      {
-        id: 'ab-1',
-        fecha: today,
-        monto: 200000,
-        pagadoPor: 'Camilo',
-        recibidoPor: 'Alex',
-        metodoPago: 'banco',
-        descripcion: 'Abono a cuenta común gastos del hogar',
-        synced: true,
-        createdAt: new Date().toISOString(),
-      },
-    ];
-    await db.abonosSocios.bulkAdd(initialAbonos);
+export async function cargarHistorialWhatsAppEnDexie(force = false): Promise<{ gastosCargados: number; abonosCargados: number }> {
+  try {
+    const whatsappData = await import('./whatsappHistoricalData.json');
+    const currentCount = await db.gastosHogar.count();
+    if (currentCount > 50 && !force) {
+      return { gastosCargados: 0, abonosCargados: 0 };
+    }
+
+    if (force || currentCount <= 2) {
+      await db.gastosHogar.clear();
+      await db.abonosSocios.clear();
+    }
+
+    const gastos = (whatsappData.default?.gastos || whatsappData.gastos || []) as GastoHogar[];
+    const abonos = (whatsappData.default?.abonos || whatsappData.abonos || []) as AbonoSocio[];
+
+    if (gastos.length > 0) {
+      await db.gastosHogar.bulkPut(gastos);
+    }
+    if (abonos.length > 0) {
+      await db.abonosSocios.bulkPut(abonos);
+    }
+
+    return { gastosCargados: gastos.length, abonosCargados: abonos.length };
+  } catch (err) {
+    console.warn('No se pudo cargar whatsappHistoricalData.json:', err);
+    return { gastosCargados: 0, abonosCargados: 0 };
   }
 }
 

@@ -7,6 +7,7 @@ import {
   type RetiroUtilidad,
   type AbonoSocio,
   type CategoriaGastoHogar,
+  cargarHistorialWhatsAppEnDexie,
 } from '../lib/db';
 import { useAuth } from '../contexts/AuthContext';
 import { pushCambiosLocalesASupabase } from '../lib/syncService';
@@ -30,6 +31,7 @@ import {
   CheckCircle2,
   Scale,
   Sparkles,
+  RefreshCw,
 } from 'lucide-react';
 
 const MESES = [
@@ -324,6 +326,14 @@ export function CuentasCasaTab() {
     setDescAbono(`Abono para saldar cuentas (${deudor} a ${acreedor})`);
   };
 
+  const handleRecargarWhatsApp = async () => {
+    if (confirm('¿Recargar el historial completo de WhatsApp (1.300+ registros de 2024 a 2026)?')) {
+      const res = await cargarHistorialWhatsAppEnDexie(true);
+      await cargarDatos();
+      alert(`¡Historial cargado con éxito! Se cargaron ${res.gastosCargados} gastos y ${res.abonosCargados} abonos.`);
+    }
+  };
+
   // Consolidar lista de movimientos ordenada por fecha y timestamp
   const movimientosConsolidados = useMemo(() => {
     const items: Array<{
@@ -428,6 +438,16 @@ export function CuentasCasaTab() {
               </option>
             ))}
           </select>
+
+          {/* Botón para recargar historial completo de WhatsApp */}
+          <button
+            type="button"
+            onClick={handleRecargarWhatsApp}
+            className="p-1.5 text-slate-400 hover:text-emerald-700 hover:bg-emerald-50 border border-slate-200 rounded-xl transition cursor-pointer"
+            title="Recargar historial completo de WhatsApp (2024-2026)"
+          >
+            <RefreshCw className="w-3.5 h-3.5" />
+          </button>
         </div>
       </div>
 
