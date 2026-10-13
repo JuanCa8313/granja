@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generadoEl": "2026-10-13T21:11:54.104Z",
+  "generadoEl": "2026-10-13T21:30:23.097Z",
   "gastos": [
     {
       "id": "gh-wa-1",
@@ -187,7 +187,7 @@
     {
       "id": "gh-wa-15",
       "fecha": "2024-07-21",
-      "categoria": "mercado",
+      "categoria": "trucha",
       "descripcion": "Trucha pago cami",
       "monto": 19000,
       "metodoPago": "efectivo",
@@ -226,7 +226,7 @@
     {
       "id": "gh-wa-19",
       "fecha": "2024-07-22",
-      "categoria": "mantenimiento",
+      "categoria": "pollos",
       "descripcion": "Cuido pollas",
       "monto": 4800,
       "metodoPago": "efectivo",
@@ -382,7 +382,7 @@
     {
       "id": "gh-wa-31",
       "fecha": "2024-07-27",
-      "categoria": "mantenimiento",
+      "categoria": "pollos",
       "descripcion": "Pollas y gatas",
       "monto": 32600,
       "metodoPago": "efectivo",
@@ -577,7 +577,7 @@
     {
       "id": "gh-wa-47",
       "fecha": "2024-08-04",
-      "categoria": "mercado",
+      "categoria": "trucha",
       "descripcion": "Trucha",
       "monto": 21000,
       "metodoPago": "efectivo",
@@ -824,7 +824,7 @@
     {
       "id": "gh-wa-66",
       "fecha": "2024-08-12",
-      "categoria": "mantenimiento",
+      "categoria": "gallinas",
       "descripcion": "Cuido gatas y gallinas",
       "monto": 27300,
       "metodoPago": "efectivo",
@@ -889,7 +889,7 @@
     {
       "id": "gh-wa-71",
       "fecha": "2024-08-16",
-      "categoria": "mantenimiento",
+      "categoria": "cultivo",
       "descripcion": "Abono a cuentas del hogar",
       "monto": 7000,
       "metodoPago": "efectivo",
@@ -1123,7 +1123,7 @@
     {
       "id": "gh-wa-89",
       "fecha": "2024-08-22",
-      "categoria": "mantenimiento",
+      "categoria": "pollos",
       "descripcion": "Cuido pollas",
       "monto": 5700,
       "metodoPago": "efectivo",
@@ -1292,7 +1292,7 @@
     {
       "id": "gh-wa-102",
       "fecha": "2024-09-02",
-      "categoria": "mantenimiento",
+      "categoria": "cultivo",
       "descripcion": "Cuido y matamaleza",
       "monto": 31800,
       "metodoPago": "efectivo",
@@ -1552,7 +1552,7 @@
     {
       "id": "gh-wa-123",
       "fecha": "2024-09-12",
-      "categoria": "mantenimiento",
+      "categoria": "pollos",
       "descripcion": "Cuido pollas",
       "monto": 4800,
       "metodoPago": "efectivo",
@@ -1682,7 +1682,7 @@
     {
       "id": "gh-wa-133",
       "fecha": "2024-09-18",
-      "categoria": "mantenimiento",
+      "categoria": "pollos",
       "descripcion": "Cuido gatas y pollas",
       "monto": 32000,
       "metodoPago": "efectivo",
@@ -1929,7 +1929,7 @@
     {
       "id": "gh-wa-152",
       "fecha": "2024-09-26",
-      "categoria": "mercado",
+      "categoria": "trucha",
       "descripcion": "Trucha",
       "monto": 20000,
       "metodoPago": "efectivo",
@@ -1994,7 +1994,7 @@
     {
       "id": "gh-wa-158",
       "fecha": "2024-10-01",
-      "categoria": "mantenimiento",
+      "categoria": "imprevisto",
       "descripcion": "Gatas",
       "monto": 22500,
       "metodoPago": "efectivo",
@@ -2098,7 +2098,7 @@
     {
       "id": "gh-wa-166",
       "fecha": "2024-10-09",
-      "categoria": "mercado",
+      "categoria": "tilapia",
       "descripcion": "Tilapia",
       "monto": 33500,
       "metodoPago": "efectivo",
@@ -2176,7 +2176,7 @@
     {
       "id": "gh-wa-172",
       "fecha": "2024-10-11",
-      "categoria": "mantenimiento",
+      "categoria": "pollos",
       "descripcion": "Cuido pollas",
       "monto": 9600,
       "metodoPago": "efectivo",
@@ -2241,7 +2241,7 @@
     {
       "id": "gh-wa-177",
       "fecha": "2024-10-15",
-      "categoria": "mantenimiento",
+      "categoria": "imprevisto",
       "descripcion": "Gatas",
       "monto": 22500,
       "metodoPago": "efectivo",
@@ -2371,7 +2371,7 @@
     {
       "id": "gh-wa-188",
       "fecha": "2024-10-18",
-      "categoria": "imprevisto",
+      "categoria": "cultivo",
       "descripcion": "Huevos y matamaleza",
       "monto": 9600,
       "metodoPago": "efectivo",
@@ -2553,7 +2553,7 @@
     {
       "id": "gh-wa-202",
       "fecha": "2024-10-26",
-      "categoria": "mercado",
+      "categoria": "trucha",
       "descripcion": "Trucha",
       "monto": 40000,
       "metodoPago": "efectivo",
@@ -2579,7 +2579,7 @@
     {
       "id": "gh-wa-204",
       "fecha": "2024-10-27",
-      "categoria": "mantenimiento",
+      "categoria": "pollos",
       "descripcion": "Gatas y pollas",
       "monto": 31500,
       "metodoPago": "efectivo",
@@ -2826,7 +2826,7 @@
     {
       "id": "gh-wa-226",
       "fecha": "2024-11-10",
-      "categoria": "mantenimiento",
+      "categoria": "imprevisto",
       "descripcion": "Cuido",
       "monto": 21000,
       "metodoPago": "efectivo",
@@ -3125,7 +3125,7 @@
     {
       "id": "gh-wa-249",
       "fecha": "2024-11-23",
-      "categoria": "mantenimiento",
+      "categoria": "pollos",
       "descripcion": "Cuido gatas y pollas",
       "monto": 26950,
       "metodoPago": "efectivo",
@@ -3229,7 +3229,7 @@
     {
       "id": "gh-wa-257",
       "fecha": "2024-12-04",
-      "categoria": "mantenimiento",
+      "categoria": "pollos",
       "descripcion": "Cuido gatas y pollas",
       "monto": 26500,
       "metodoPago": "efectivo",
@@ -3489,7 +3489,7 @@
     {
       "id": "gh-wa-278",
       "fecha": "2024-12-16",
-      "categoria": "mercado",
+      "categoria": "tilapia",
       "descripcion": "Tilapia y pechuga",
       "monto": 35400,
       "metodoPago": "efectivo",
@@ -3606,7 +3606,7 @@
     {
       "id": "gh-wa-288",
       "fecha": "2024-12-21",
-      "categoria": "imprevisto",
+      "categoria": "cultivo",
       "descripcion": "Aceite y semillas",
       "monto": 27000,
       "metodoPago": "efectivo",
@@ -3944,7 +3944,7 @@
     {
       "id": "gh-wa-315",
       "fecha": "2025-01-07",
-      "categoria": "mantenimiento",
+      "categoria": "pollos",
       "descripcion": "Pollas y gatas",
       "monto": 12000,
       "metodoPago": "efectivo",
@@ -4087,7 +4087,7 @@
     {
       "id": "gh-wa-327",
       "fecha": "2025-01-15",
-      "categoria": "mantenimiento",
+      "categoria": "pollos",
       "descripcion": "Gatas y pollas",
       "monto": 31500,
       "metodoPago": "efectivo",
@@ -4295,7 +4295,7 @@
     {
       "id": "gh-wa-344",
       "fecha": "2025-01-27",
-      "categoria": "mantenimiento",
+      "categoria": "pollos",
       "descripcion": "Cuido pollas y medicamento gatas",
       "monto": 35000,
       "metodoPago": "efectivo",
@@ -4555,7 +4555,7 @@
     {
       "id": "gh-wa-364",
       "fecha": "2025-02-08",
-      "categoria": "mantenimiento",
+      "categoria": "pollos",
       "descripcion": "Cuido gatas y pollas",
       "monto": 31500,
       "metodoPago": "efectivo",
@@ -4893,7 +4893,7 @@
     {
       "id": "gh-wa-390",
       "fecha": "2025-02-22",
-      "categoria": "mantenimiento",
+      "categoria": "gallinas",
       "descripcion": "Gallinas cuido",
       "monto": 10000,
       "metodoPago": "efectivo",
@@ -4984,7 +4984,7 @@
     {
       "id": "gh-wa-397",
       "fecha": "2025-02-28",
-      "categoria": "mercado",
+      "categoria": "trucha",
       "descripcion": "Trucha",
       "monto": 22000,
       "metodoPago": "efectivo",
@@ -5270,7 +5270,7 @@
     {
       "id": "gh-wa-420",
       "fecha": "2025-03-11",
-      "categoria": "mantenimiento",
+      "categoria": "imprevisto",
       "descripcion": "Cuidos",
       "monto": 26500,
       "metodoPago": "efectivo",
@@ -5504,7 +5504,7 @@
     {
       "id": "gh-wa-438",
       "fecha": "2025-03-25",
-      "categoria": "mantenimiento",
+      "categoria": "gallinas",
       "descripcion": "Gallinas",
       "monto": 10600,
       "metodoPago": "efectivo",
@@ -5829,7 +5829,7 @@
     {
       "id": "gh-wa-464",
       "fecha": "2025-04-09",
-      "categoria": "mantenimiento",
+      "categoria": "gallinas",
       "descripcion": "Chidos pollas y gallinas",
       "monto": 29200,
       "metodoPago": "efectivo",
@@ -5959,7 +5959,7 @@
     {
       "id": "gh-wa-474",
       "fecha": "2025-04-15",
-      "categoria": "mercado",
+      "categoria": "trucha",
       "descripcion": "Trucha",
       "monto": 22000,
       "metodoPago": "efectivo",
@@ -6050,7 +6050,7 @@
     {
       "id": "gh-wa-481",
       "fecha": "2025-04-27",
-      "categoria": "mantenimiento",
+      "categoria": "imprevisto",
       "descripcion": "Cuido",
       "monto": 23000,
       "metodoPago": "efectivo",
@@ -6128,7 +6128,7 @@
     {
       "id": "gh-wa-487",
       "fecha": "2025-04-29",
-      "categoria": "mercado",
+      "categoria": "trucha",
       "descripcion": "Trucha",
       "monto": 20000,
       "metodoPago": "efectivo",
@@ -6349,7 +6349,7 @@
     {
       "id": "gh-wa-504",
       "fecha": "2025-05-05",
-      "categoria": "imprevisto",
+      "categoria": "cultivo",
       "descripcion": "Fumigada y podada 2",
       "monto": 120000,
       "metodoPago": "efectivo",
@@ -6453,7 +6453,7 @@
     {
       "id": "gh-wa-512",
       "fecha": "2025-05-08",
-      "categoria": "mantenimiento",
+      "categoria": "imprevisto",
       "descripcion": "Cuido",
       "monto": 46000,
       "metodoPago": "efectivo",
@@ -6687,7 +6687,7 @@
     {
       "id": "gh-wa-531",
       "fecha": "2025-05-25",
-      "categoria": "mantenimiento",
+      "categoria": "imprevisto",
       "descripcion": "Cuido",
       "monto": 26000,
       "metodoPago": "efectivo",
@@ -6843,7 +6843,7 @@
     {
       "id": "gh-wa-543",
       "fecha": "2025-06-05",
-      "categoria": "mantenimiento",
+      "categoria": "pollos",
       "descripcion": "Pollas y gatas",
       "monto": 23000,
       "metodoPago": "efectivo",
@@ -7025,7 +7025,7 @@
     {
       "id": "gh-wa-558",
       "fecha": "2025-06-19",
-      "categoria": "mantenimiento",
+      "categoria": "imprevisto",
       "descripcion": "Cuido",
       "monto": 31750,
       "metodoPago": "efectivo",
@@ -7259,7 +7259,7 @@
     {
       "id": "gh-wa-577",
       "fecha": "2025-07-02",
-      "categoria": "mantenimiento",
+      "categoria": "imprevisto",
       "descripcion": "Cuido",
       "monto": 23000,
       "metodoPago": "efectivo",
@@ -7441,7 +7441,7 @@
     {
       "id": "gh-wa-591",
       "fecha": "2025-07-14",
-      "categoria": "mantenimiento",
+      "categoria": "imprevisto",
       "descripcion": "Cuido",
       "monto": 40500,
       "metodoPago": "efectivo",
@@ -7701,7 +7701,7 @@
     {
       "id": "gh-wa-611",
       "fecha": "2025-07-31",
-      "categoria": "mantenimiento",
+      "categoria": "pollos",
       "descripcion": "Cuido gatas y pollas",
       "monto": 25100,
       "metodoPago": "efectivo",
@@ -8026,7 +8026,7 @@
     {
       "id": "gh-wa-637",
       "fecha": "2025-08-14",
-      "categoria": "mantenimiento",
+      "categoria": "pollos",
       "descripcion": "Pollas y gatas",
       "monto": 24800,
       "metodoPago": "efectivo",
@@ -8169,7 +8169,7 @@
     {
       "id": "gh-wa-648",
       "fecha": "2025-08-25",
-      "categoria": "imprevisto",
+      "categoria": "cultivo",
       "descripcion": "Caliman fumigada",
       "monto": 10000,
       "metodoPago": "efectivo",
@@ -8221,7 +8221,7 @@
     {
       "id": "gh-wa-652",
       "fecha": "2025-08-26",
-      "categoria": "mantenimiento",
+      "categoria": "pollos",
       "descripcion": "Cómoda pollas",
       "monto": 10000,
       "metodoPago": "efectivo",
@@ -8234,7 +8234,7 @@
     {
       "id": "gh-wa-653",
       "fecha": "2025-08-27",
-      "categoria": "mantenimiento",
+      "categoria": "imprevisto",
       "descripcion": "Varilla y cuido",
       "monto": 50000,
       "metodoPago": "efectivo",
@@ -8260,7 +8260,7 @@
     {
       "id": "gh-wa-655",
       "fecha": "2025-08-28",
-      "categoria": "mantenimiento",
+      "categoria": "imprevisto",
       "descripcion": "Cuido",
       "monto": 19800,
       "metodoPago": "efectivo",
@@ -8403,7 +8403,7 @@
     {
       "id": "gh-wa-666",
       "fecha": "2025-09-05",
-      "categoria": "mercado",
+      "categoria": "trucha",
       "descripcion": "Truchas angelita",
       "monto": 22000,
       "metodoPago": "efectivo",
@@ -8468,7 +8468,7 @@
     {
       "id": "gh-wa-671",
       "fecha": "2025-09-07",
-      "categoria": "mantenimiento",
+      "categoria": "imprevisto",
       "descripcion": "Cuido",
       "monto": 29800,
       "metodoPago": "efectivo",
@@ -8806,7 +8806,7 @@
     {
       "id": "gh-wa-697",
       "fecha": "2025-09-23",
-      "categoria": "mantenimiento",
+      "categoria": "imprevisto",
       "descripcion": "Cuido",
       "monto": 27500,
       "metodoPago": "efectivo",
@@ -8845,7 +8845,7 @@
     {
       "id": "gh-wa-700",
       "fecha": "2025-09-23",
-      "categoria": "mercado",
+      "categoria": "tilapia",
       "descripcion": "Tilapia",
       "monto": 16500,
       "metodoPago": "efectivo",
@@ -8923,7 +8923,7 @@
     {
       "id": "gh-wa-706",
       "fecha": "2025-09-25",
-      "categoria": "mercado",
+      "categoria": "trucha",
       "descripcion": "Trucha",
       "monto": 26000,
       "metodoPago": "efectivo",
@@ -9118,7 +9118,7 @@
     {
       "id": "gh-wa-722",
       "fecha": "2025-10-06",
-      "categoria": "mantenimiento",
+      "categoria": "imprevisto",
       "descripcion": "Cuido",
       "monto": 29800,
       "metodoPago": "efectivo",
@@ -9690,7 +9690,7 @@
     {
       "id": "gh-wa-766",
       "fecha": "2025-10-29",
-      "categoria": "mantenimiento",
+      "categoria": "pollos",
       "descripcion": "Gatas y pollas",
       "monto": 30000,
       "metodoPago": "efectivo",
@@ -9937,7 +9937,7 @@
     {
       "id": "gh-wa-785",
       "fecha": "2025-11-09",
-      "categoria": "mantenimiento",
+      "categoria": "imprevisto",
       "descripcion": "Cuidos",
       "monto": 61200,
       "metodoPago": "efectivo",
@@ -10860,7 +10860,7 @@
     {
       "id": "gh-wa-857",
       "fecha": "2026-01-03",
-      "categoria": "mantenimiento",
+      "categoria": "imprevisto",
       "descripcion": "Cuido",
       "monto": 10100,
       "metodoPago": "efectivo",
@@ -10925,7 +10925,7 @@
     {
       "id": "gh-wa-862",
       "fecha": "2026-01-05",
-      "categoria": "mantenimiento",
+      "categoria": "imprevisto",
       "descripcion": "Cuido",
       "monto": 23300,
       "metodoPago": "efectivo",
@@ -11120,7 +11120,7 @@
     {
       "id": "gh-wa-879",
       "fecha": "2026-01-18",
-      "categoria": "mantenimiento",
+      "categoria": "gallinas",
       "descripcion": "Embudo gallinas",
       "monto": 75000,
       "metodoPago": "efectivo",
@@ -11159,7 +11159,7 @@
     {
       "id": "gh-wa-882",
       "fecha": "2026-01-18",
-      "categoria": "mantenimiento",
+      "categoria": "gallinas",
       "descripcion": "Cuido gallinas",
       "monto": 43500,
       "metodoPago": "efectivo",
@@ -11341,7 +11341,7 @@
     {
       "id": "gh-wa-896",
       "fecha": "2026-01-28",
-      "categoria": "mantenimiento",
+      "categoria": "imprevisto",
       "descripcion": "Cuido",
       "monto": 19800,
       "metodoPago": "efectivo",
@@ -12108,7 +12108,7 @@
     {
       "id": "gh-wa-956",
       "fecha": "2026-03-06",
-      "categoria": "mantenimiento",
+      "categoria": "cultivo",
       "descripcion": "Cuido y semillas",
       "monto": 30000,
       "metodoPago": "efectivo",
@@ -12407,7 +12407,7 @@
     {
       "id": "gh-wa-979",
       "fecha": "2026-03-26",
-      "categoria": "mantenimiento",
+      "categoria": "gallinas",
       "descripcion": "Cuido gatas y gallinas",
       "monto": 99000,
       "metodoPago": "efectivo",
@@ -12524,7 +12524,7 @@
     {
       "id": "gh-wa-988",
       "fecha": "2026-04-03",
-      "categoria": "mantenimiento",
+      "categoria": "gallinas",
       "descripcion": "Trasporte gallinas",
       "monto": 150000,
       "metodoPago": "efectivo",
@@ -12693,7 +12693,7 @@
     {
       "id": "gh-wa-1001",
       "fecha": "2026-04-09",
-      "categoria": "mercado",
+      "categoria": "trucha",
       "descripcion": "Trucha",
       "monto": 23000,
       "metodoPago": "efectivo",
@@ -12706,7 +12706,7 @@
     {
       "id": "gh-wa-1002",
       "fecha": "2026-04-10",
-      "categoria": "mantenimiento",
+      "categoria": "imprevisto",
       "descripcion": "Cuido",
       "monto": 127800,
       "metodoPago": "efectivo",
@@ -12927,7 +12927,7 @@
     {
       "id": "gh-wa-1019",
       "fecha": "2026-04-21",
-      "categoria": "mantenimiento",
+      "categoria": "gallinas",
       "descripcion": "Round up, bebedero, cuido",
       "monto": 129000,
       "metodoPago": "efectivo",
@@ -13057,7 +13057,7 @@
     {
       "id": "gh-wa-1029",
       "fecha": "2026-04-26",
-      "categoria": "mantenimiento",
+      "categoria": "gallinas",
       "descripcion": "Comedero gallinas",
       "monto": 18000,
       "metodoPago": "efectivo",
@@ -13187,7 +13187,7 @@
     {
       "id": "gh-wa-1039",
       "fecha": "2026-05-05",
-      "categoria": "mantenimiento",
+      "categoria": "gallinas",
       "descripcion": "Cuido gallinas y gata",
       "monto": 99300,
       "metodoPago": "efectivo",
@@ -13252,7 +13252,7 @@
     {
       "id": "gh-wa-1044",
       "fecha": "2026-05-08",
-      "categoria": "mantenimiento",
+      "categoria": "trucha",
       "descripcion": "Cuido peces",
       "monto": 13000,
       "metodoPago": "efectivo",
@@ -13265,7 +13265,7 @@
     {
       "id": "gh-wa-1045",
       "fecha": "2026-05-08",
-      "categoria": "mantenimiento",
+      "categoria": "trucha",
       "descripcion": "Cuido peces",
       "monto": 25000,
       "metodoPago": "efectivo",
@@ -13408,7 +13408,7 @@
     {
       "id": "gh-wa-1056",
       "fecha": "2026-05-12",
-      "categoria": "imprevisto",
+      "categoria": "trucha",
       "descripcion": "Antibiótico peces",
       "monto": 44000,
       "metodoPago": "efectivo",
@@ -13434,7 +13434,7 @@
     {
       "id": "gh-wa-1058",
       "fecha": "2026-05-13",
-      "categoria": "mantenimiento",
+      "categoria": "pollos",
       "descripcion": "Cuido pollas y gatas",
       "monto": 99300,
       "metodoPago": "efectivo",
@@ -13551,7 +13551,7 @@
     {
       "id": "gh-wa-1067",
       "fecha": "2026-05-18",
-      "categoria": "mercado",
+      "categoria": "tilapia",
       "descripcion": "Tilapias lago",
       "monto": 181000,
       "metodoPago": "efectivo",
@@ -13577,7 +13577,7 @@
     {
       "id": "gh-wa-1069",
       "fecha": "2026-05-21",
-      "categoria": "mantenimiento",
+      "categoria": "gallinas",
       "descripcion": "Cuido gallinas",
       "monto": 170000,
       "metodoPago": "efectivo",
@@ -13655,7 +13655,7 @@
     {
       "id": "gh-wa-1075",
       "fecha": "2026-05-21",
-      "categoria": "mantenimiento",
+      "categoria": "mercado",
       "descripcion": "Cuido sol store",
       "monto": 15000,
       "metodoPago": "efectivo",
@@ -13668,7 +13668,7 @@
     {
       "id": "gh-wa-1076",
       "fecha": "2026-05-23",
-      "categoria": "mantenimiento",
+      "categoria": "gallinas",
       "descripcion": "Abono gallinas Samu",
       "monto": 400000,
       "metodoPago": "efectivo",
@@ -13746,7 +13746,7 @@
     {
       "id": "gh-wa-1082",
       "fecha": "2026-05-28",
-      "categoria": "mantenimiento",
+      "categoria": "gallinas",
       "descripcion": "Cuido y bebederos",
       "monto": 128000,
       "metodoPago": "efectivo",
@@ -13811,7 +13811,7 @@
     {
       "id": "gh-wa-1087",
       "fecha": "2026-06-02",
-      "categoria": "mantenimiento",
+      "categoria": "pollos",
       "descripcion": "Cuido pollas",
       "monto": 86000,
       "metodoPago": "efectivo",
@@ -13850,7 +13850,7 @@
     {
       "id": "gh-wa-1090",
       "fecha": "2026-06-02",
-      "categoria": "mantenimiento",
+      "categoria": "trucha",
       "descripcion": "Cuido peces",
       "monto": 24000,
       "metodoPago": "efectivo",
@@ -13941,7 +13941,7 @@
     {
       "id": "gh-wa-1097",
       "fecha": "2026-06-06",
-      "categoria": "mantenimiento",
+      "categoria": "imprevisto",
       "descripcion": "Cuido",
       "monto": 106750,
       "metodoPago": "efectivo",
@@ -14266,7 +14266,7 @@
     {
       "id": "gh-wa-1122",
       "fecha": "2026-06-23",
-      "categoria": "mantenimiento",
+      "categoria": "imprevisto",
       "descripcion": "Cuido",
       "monto": 197000,
       "metodoPago": "efectivo",
@@ -14370,7 +14370,7 @@
     {
       "id": "gh-wa-1130",
       "fecha": "2026-06-28",
-      "categoria": "mantenimiento",
+      "categoria": "trucha",
       "descripcion": "Cuido truchas",
       "monto": 225000,
       "metodoPago": "efectivo",
@@ -14461,7 +14461,7 @@
     {
       "id": "gh-wa-1137",
       "fecha": "2026-07-02",
-      "categoria": "mantenimiento",
+      "categoria": "gallinas",
       "descripcion": "Cuido gallinas y bebedero",
       "monto": 215000,
       "metodoPago": "efectivo",
@@ -14487,7 +14487,7 @@
     {
       "id": "gh-wa-1139",
       "fecha": "2026-07-02",
-      "categoria": "servicios",
+      "categoria": "gallinas",
       "descripcion": "Pulgas gallinas",
       "monto": 20000,
       "metodoPago": "efectivo",
@@ -14695,7 +14695,7 @@
     {
       "id": "gh-wa-1155",
       "fecha": "2026-07-14",
-      "categoria": "mantenimiento",
+      "categoria": "gallinas",
       "descripcion": "Gallinas cuida",
       "monto": 170000,
       "metodoPago": "efectivo",
@@ -14812,7 +14812,7 @@
     {
       "id": "gh-wa-1164",
       "fecha": "2026-07-21",
-      "categoria": "mantenimiento",
+      "categoria": "gallinas",
       "descripcion": "Gallinas complejo B",
       "monto": 10400,
       "metodoPago": "efectivo",
@@ -14825,7 +14825,7 @@
     {
       "id": "gh-wa-1165",
       "fecha": "2026-07-23",
-      "categoria": "mantenimiento",
+      "categoria": "gallinas",
       "descripcion": "Gallinas cuido",
       "monto": 170000,
       "metodoPago": "efectivo",
@@ -14877,7 +14877,7 @@
     {
       "id": "gh-wa-1169",
       "fecha": "2026-07-26",
-      "categoria": "imprevisto",
+      "categoria": "vaca",
       "descripcion": "Vaquita abono",
       "monto": 500000,
       "metodoPago": "efectivo",
@@ -14890,7 +14890,7 @@
     {
       "id": "gh-wa-1170",
       "fecha": "2026-07-28",
-      "categoria": "mercado",
+      "categoria": "trucha",
       "descripcion": "Trucha",
       "monto": 194000,
       "metodoPago": "efectivo",
@@ -15007,7 +15007,7 @@
     {
       "id": "gh-wa-1179",
       "fecha": "2026-07-31",
-      "categoria": "mantenimiento",
+      "categoria": "gallinas",
       "descripcion": "Gallinas",
       "monto": 266000,
       "metodoPago": "efectivo",
@@ -15111,7 +15111,7 @@
     {
       "id": "gh-wa-1187",
       "fecha": "2026-08-04",
-      "categoria": "mantenimiento",
+      "categoria": "gallinas",
       "descripcion": "Gallinas 1 Comedero",
       "monto": 21500,
       "metodoPago": "efectivo",
@@ -15150,7 +15150,7 @@
     {
       "id": "gh-wa-1190",
       "fecha": "2026-08-04",
-      "categoria": "mantenimiento",
+      "categoria": "gallinas",
       "descripcion": "Sacamos0de las gallinas para aserrín",
       "monto": 12000,
       "metodoPago": "efectivo",
@@ -15215,7 +15215,7 @@
     {
       "id": "gh-wa-1195",
       "fecha": "2026-08-07",
-      "categoria": "mantenimiento",
+      "categoria": "pollos",
       "descripcion": "Cuido pollos",
       "monto": 47500,
       "metodoPago": "efectivo",
@@ -15228,7 +15228,7 @@
     {
       "id": "gh-wa-1196",
       "fecha": "2026-08-07",
-      "categoria": "mantenimiento",
+      "categoria": "imprevisto",
       "descripcion": "Cuido Rafaela",
       "monto": 14250,
       "metodoPago": "efectivo",
@@ -15241,7 +15241,7 @@
     {
       "id": "gh-wa-1197",
       "fecha": "2026-08-08",
-      "categoria": "mantenimiento",
+      "categoria": "gallinas",
       "descripcion": "Gallinas aserrín",
       "monto": 16000,
       "metodoPago": "efectivo",
@@ -15280,7 +15280,7 @@
     {
       "id": "gh-wa-1200",
       "fecha": "2026-08-08",
-      "categoria": "imprevisto",
+      "categoria": "cultivo",
       "descripcion": "Cal agrícola",
       "monto": 26000,
       "metodoPago": "efectivo",
@@ -15293,7 +15293,7 @@
     {
       "id": "gh-wa-1201",
       "fecha": "2026-08-08",
-      "categoria": "mantenimiento",
+      "categoria": "gallinas",
       "descripcion": "Gallinas cuido",
       "monto": 170000,
       "metodoPago": "efectivo",
@@ -15306,7 +15306,7 @@
     {
       "id": "gh-wa-1202",
       "fecha": "2026-08-08",
-      "categoria": "mantenimiento",
+      "categoria": "gallinas",
       "descripcion": "Hemoshooo recuerda que ya habíamos sacado para el acerein del dinero de las gallinas. Tu se los diste a tu papá. Creo que está anotado en winners.",
       "monto": 12000,
       "metodoPago": "efectivo",
@@ -15475,7 +15475,7 @@
     {
       "id": "gh-wa-1215",
       "fecha": "2026-08-13",
-      "categoria": "mantenimiento",
+      "categoria": "gallinas",
       "descripcion": "Cuido gallinas",
       "monto": 85000,
       "metodoPago": "efectivo",
@@ -15488,7 +15488,7 @@
     {
       "id": "gh-wa-1216",
       "fecha": "2026-08-18",
-      "categoria": "mantenimiento",
+      "categoria": "gallinas",
       "descripcion": "Cuido gallinas",
       "monto": 85000,
       "metodoPago": "efectivo",
@@ -15501,7 +15501,7 @@
     {
       "id": "gh-wa-1217",
       "fecha": "2026-08-18",
-      "categoria": "imprevisto",
+      "categoria": "gallinas",
       "descripcion": "Aserrín",
       "monto": 14000,
       "metodoPago": "efectivo",
@@ -15514,7 +15514,7 @@
     {
       "id": "gh-wa-1218",
       "fecha": "2026-08-18",
-      "categoria": "imprevisto",
+      "categoria": "gallinas",
       "descripcion": "Aserrín",
       "monto": 14000,
       "metodoPago": "efectivo",
@@ -15527,7 +15527,7 @@
     {
       "id": "gh-wa-1219",
       "fecha": "2026-08-20",
-      "categoria": "mantenimiento",
+      "categoria": "trucha",
       "descripcion": "Cuido peces",
       "monto": 194000,
       "metodoPago": "efectivo",
@@ -15579,7 +15579,7 @@
     {
       "id": "gh-wa-1223",
       "fecha": "2026-08-20",
-      "categoria": "mantenimiento",
+      "categoria": "gallinas",
       "descripcion": "Gallinas y pollo cuido",
       "monto": 130000,
       "metodoPago": "efectivo",
@@ -15631,7 +15631,7 @@
     {
       "id": "gh-wa-1227",
       "fecha": "2026-08-20",
-      "categoria": "mantenimiento",
+      "categoria": "gallinas",
       "descripcion": "Gallinas aserrín",
       "monto": 14000,
       "metodoPago": "efectivo",
@@ -15670,7 +15670,7 @@
     {
       "id": "gh-wa-1230",
       "fecha": "2026-08-22",
-      "categoria": "mantenimiento",
+      "categoria": "vaca",
       "descripcion": "Cuido pollos y vaca",
       "monto": 140250,
       "metodoPago": "efectivo",
@@ -15774,7 +15774,7 @@
     {
       "id": "gh-wa-1238",
       "fecha": "2026-08-25",
-      "categoria": "imprevisto",
+      "categoria": "vaca",
       "descripcion": "Vaca next",
       "monto": 38500,
       "metodoPago": "efectivo",
@@ -15813,7 +15813,7 @@
     {
       "id": "gh-wa-1241",
       "fecha": "2026-08-25",
-      "categoria": "mantenimiento",
+      "categoria": "gallinas",
       "descripcion": "Gallinas cuido",
       "monto": 85000,
       "metodoPago": "efectivo",
@@ -15891,7 +15891,7 @@
     {
       "id": "gh-wa-1247",
       "fecha": "2026-08-30",
-      "categoria": "mantenimiento",
+      "categoria": "gallinas",
       "descripcion": "Pago gallinas Samuel",
       "monto": 200000,
       "metodoPago": "efectivo",
@@ -16216,7 +16216,7 @@
     {
       "id": "gh-wa-1272",
       "fecha": "2026-09-13",
-      "categoria": "mantenimiento",
+      "categoria": "imprevisto",
       "descripcion": "Abono Lote",
       "monto": 1000000,
       "metodoPago": "efectivo",
@@ -16281,7 +16281,7 @@
     {
       "id": "gh-wa-1277",
       "fecha": "2026-09-15",
-      "categoria": "mantenimiento",
+      "categoria": "pollos",
       "descripcion": "Cuido pollos",
       "monto": 92000,
       "metodoPago": "efectivo",
@@ -16359,7 +16359,7 @@
     {
       "id": "gh-wa-1283",
       "fecha": "2026-09-19",
-      "categoria": "mantenimiento",
+      "categoria": "pollos",
       "descripcion": "Cuido pollos",
       "monto": 45000,
       "metodoPago": "efectivo",
@@ -16385,7 +16385,7 @@
     {
       "id": "gh-wa-1285",
       "fecha": "2026-09-19",
-      "categoria": "mantenimiento",
+      "categoria": "trucha",
       "descripcion": "Cuido peces y melasa",
       "monto": 231800,
       "metodoPago": "efectivo",
@@ -16489,7 +16489,7 @@
     {
       "id": "gh-wa-1293",
       "fecha": "2026-09-26",
-      "categoria": "imprevisto",
+      "categoria": "vaca",
       "descripcion": "Gotas vaca",
       "monto": 8000,
       "metodoPago": "efectivo",
@@ -16502,7 +16502,7 @@
     {
       "id": "gh-wa-1294",
       "fecha": "2026-09-26",
-      "categoria": "mantenimiento",
+      "categoria": "pollos",
       "descripcion": "Cuido pollos",
       "monto": 46000,
       "metodoPago": "efectivo",
@@ -16515,7 +16515,7 @@
     {
       "id": "gh-wa-1295",
       "fecha": "2026-09-26",
-      "categoria": "mantenimiento",
+      "categoria": "tilapia",
       "descripcion": "Cuido tilapia",
       "monto": 64000,
       "metodoPago": "efectivo",
@@ -16619,7 +16619,7 @@
     {
       "id": "gh-wa-1303",
       "fecha": "2026-10-01",
-      "categoria": "mantenimiento",
+      "categoria": "pollos",
       "descripcion": "Cuido pollos",
       "monto": 45000,
       "metodoPago": "efectivo",
@@ -16684,7 +16684,7 @@
     {
       "id": "gh-wa-1308",
       "fecha": "2026-10-07",
-      "categoria": "mantenimiento",
+      "categoria": "pollos",
       "descripcion": "Cuido pollos",
       "monto": 46000,
       "metodoPago": "efectivo",
@@ -16944,7 +16944,7 @@
     {
       "id": "gh-wa-1328",
       "fecha": "2026-10-13",
-      "categoria": "mantenimiento",
+      "categoria": "trucha",
       "descripcion": "Cuido trucha",
       "monto": 194000,
       "metodoPago": "efectivo",

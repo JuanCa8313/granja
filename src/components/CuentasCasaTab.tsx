@@ -32,6 +32,10 @@ import {
   Scale,
   Sparkles,
   RefreshCw,
+  Fish,
+  Egg,
+  Sprout,
+  Milk,
 } from 'lucide-react';
 
 const MESES = [
@@ -217,8 +221,14 @@ export function CuentasCasaTab() {
     salud: { label: 'Salud', icon: HeartPulse, color: 'text-rose-600 bg-rose-50 border-rose-200' },
     educacion: { label: 'Educación', icon: GraduationCap, color: 'text-purple-600 bg-purple-50 border-purple-200' },
     transporte: { label: 'Transporte', icon: Car, color: 'text-indigo-600 bg-indigo-50 border-indigo-200' },
-    mantenimiento: { label: 'Casa & Granja', icon: Wrench, color: 'text-emerald-600 bg-emerald-50 border-emerald-200' },
+    mantenimiento: { label: 'Mantenimiento', icon: Wrench, color: 'text-slate-600 bg-slate-50 border-slate-200' },
     imprevisto: { label: 'Imprevisto', icon: AlertCircle, color: 'text-slate-600 bg-slate-50 border-slate-200' },
+    gallinas: { label: 'Gallinas', icon: Egg, color: 'text-amber-700 bg-amber-50 border-amber-300' },
+    pollos: { label: 'Pollos', icon: Egg, color: 'text-orange-700 bg-orange-50 border-orange-300' },
+    trucha: { label: 'Trucha', icon: Fish, color: 'text-cyan-700 bg-cyan-50 border-cyan-300' },
+    tilapia: { label: 'Tilapia', icon: Fish, color: 'text-teal-700 bg-teal-50 border-teal-300' },
+    vaca: { label: 'Vaca', icon: Milk, color: 'text-lime-700 bg-lime-50 border-lime-300' },
+    cultivo: { label: 'Cultivo', icon: Sprout, color: 'text-emerald-700 bg-emerald-50 border-emerald-300' },
   };
 
   const handleGuardarGasto = async (e: React.FormEvent) => {

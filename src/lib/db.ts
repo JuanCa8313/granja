@@ -7,7 +7,13 @@ export type CategoriaGastoHogar =
   | 'salud'
   | 'mantenimiento'
   | 'transporte'
-  | 'imprevisto';
+  | 'imprevisto'
+  | 'trucha'
+  | 'tilapia'
+  | 'pollos'
+  | 'gallinas'
+  | 'vaca'
+  | 'cultivo';
 
 export interface GastoHogar {
   id: string;

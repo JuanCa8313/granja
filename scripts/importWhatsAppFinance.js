@@ -18,6 +18,57 @@ console.log(`Procesando ${lines.length} líneas del chat de WhatsApp...`);
 function clasificarCategoria(texto) {
   const t = texto.toLowerCase();
 
+  // 1. Granja: Vaca
+  if (t.includes('vaca') || t.includes('vaquita') || t.includes('terner')) {
+    return 'vaca';
+  }
+
+  // 2. Granja: Tilapia
+  if (t.includes('tilapia')) {
+    return 'tilapia';
+  }
+
+  // 3. Granja: Trucha y Peces
+  if (t.includes('trucha') || t.includes('cuido peces') || t.includes('peces')) {
+    return 'trucha';
+  }
+
+  // 4. Granja: Gallinas (aserrín, bebederos, gallinas)
+  if (
+    t.includes('gallina') ||
+    t.includes('aserrin') ||
+    t.includes('aserrín') ||
+    t.includes('bebedero')
+  ) {
+    return 'gallinas';
+  }
+
+  // 5. Granja: Pollos (crianza: cuido pollas, cuido pollos, pollas, pollitos)
+  if (
+    t.includes('cuido pollo') ||
+    t.includes('cuido polla') ||
+    t.includes('pollas') ||
+    t.includes('pollitos') ||
+    (t.includes('pollo') && t.includes('cuido'))
+  ) {
+    return 'pollos';
+  }
+
+  // 6. Granja: Cultivo (semillas, cal, fumigada, round up, etc.)
+  if (
+    t.includes('semilla') ||
+    t.includes('cal agrícola') ||
+    t.includes('cal agricola') ||
+    (t.includes('cal ') && !t.includes('caldo') && !t.includes('calentador') && !t.includes('cafelate')) ||
+    t.includes('matamaleza') ||
+    t.includes('round up') ||
+    t.includes('fumigada') ||
+    t.includes('caliman') ||
+    (t.includes('abono') && (t.includes('7.000') || t.includes('tierra') || t.includes('planta')))
+  ) {
+    return 'cultivo';
+  }
+
   // Servicios
   if (
     t.includes('agua') ||
@@ -73,12 +124,8 @@ function clasificarCategoria(texto) {
     return 'salud';
   }
 
-  // Mantenimiento / Casa & Granja
+  // Mantenimiento hogar / varios
   if (
-    t.includes('cuido') ||
-    t.includes('pollas') ||
-    t.includes('gatas') ||
-    t.includes('gallinas') ||
     t.includes('adobe') ||
     t.includes('tubo') ||
     t.includes('abrazadera') ||
@@ -92,7 +139,7 @@ function clasificarCategoria(texto) {
     t.includes('pila') ||
     t.includes('almuada') ||
     t.includes('almohada') ||
-    (t.includes('abono') && (t.includes('carretera') || t.includes('lote') || t.includes('carro') || t.includes('samu') || t.includes('7.000')))
+    t.includes('cuido gata')
   ) {
     return 'mantenimiento';
   }
@@ -108,8 +155,6 @@ function clasificarCategoria(texto) {
     t.includes('arepa') ||
     t.includes('arepas') ||
     t.includes('almuerzo') ||
-    t.includes('trucha') ||
-    t.includes('tilapia') ||
     t.includes('pechuga') ||
     t.includes('costilla') ||
     t.includes('morcilla') ||
