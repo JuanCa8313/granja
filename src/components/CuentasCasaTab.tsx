@@ -10,7 +10,7 @@ import {
   cargarHistorialWhatsAppEnDexie,
 } from '../lib/db';
 import { useAuth } from '../contexts/AuthContext';
-import { pushCambiosLocalesASupabase, notificarCambioDatos, eliminarRegistroRemoto } from '../lib/syncService';
+import { pushCambiosLocalesASupabase, notificarCambioDatos, eliminarRegistroRemoto, sincronizarTodo } from '../lib/syncService';
 import {
   formatCOP,
   formatFechaCorta,
@@ -501,11 +501,16 @@ export function CuentasCasaTab() {
     setDescAbono(`Abono para saldar cuentas (${deudor} a ${acreedor})`);
   };
 
+  const [isReloading, setIsReloading] = useState<boolean>(false);
+
   const handleRecargarWhatsApp = async () => {
-    if (confirm('¿Recargar el historial completo de WhatsApp (1.300+ registros de 2024 a 2026)?')) {
-      const res = await cargarHistorialWhatsAppEnDexie(true);
+    setIsReloading(true);
+    try {
+      await cargarHistorialWhatsAppEnDexie();
+      await sincronizarTodo();
       await cargarDatos();
-      alert(`¡Historial cargado con éxito! Se cargaron ${res.gastosCargados} gastos y ${res.abonosCargados} abonos.`);
+    } finally {
+      setIsReloading(false);
     }
   };
 
@@ -622,14 +627,15 @@ export function CuentasCasaTab() {
             ))}
           </select>
 
-          {/* Botón para recargar historial completo de WhatsApp */}
+          {/* Botón para sincronizar con la nube y recargar historial sin perder datos */}
           <button
             type="button"
+            disabled={isReloading}
             onClick={handleRecargarWhatsApp}
-            className="p-1.5 text-slate-400 hover:text-emerald-700 hover:bg-emerald-50 border border-slate-200 rounded-xl transition cursor-pointer"
-            title="Recargar historial completo de WhatsApp (2024-2026)"
+            className="p-1.5 text-slate-400 hover:text-emerald-700 hover:bg-emerald-50 border border-slate-200 rounded-xl transition cursor-pointer disabled:opacity-50"
+            title="Sincronizar registros con la nube y WhatsApp"
           >
-            <RefreshCw className="w-3.5 h-3.5" />
+            <RefreshCw className={`w-3.5 h-3.5 ${isReloading ? 'animate-spin text-emerald-600' : ''}`} />
           </button>
         </div>
       </div>

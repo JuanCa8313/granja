@@ -209,35 +209,42 @@ export async function seedInitialGranjaData(): Promise<void> {
     await db.metricasCache.bulkAdd(defaultMetrics);
   }
 
+  const rawData = whatsappHistoricalData as { gastos?: GastoHogar[]; abonos?: AbonoSocio[] };
+  const ultimoWaId = rawData.gastos?.[rawData.gastos.length - 1]?.id;
   const gastosCount = await db.gastosHogar.count();
-  if (gastosCount <= 2) {
-    await cargarHistorialWhatsAppEnDexie(true);
+  const existeUltimoWa = ultimoWaId ? !!(await db.gastosHogar.get(ultimoWaId)) : true;
+
+  if (gastosCount <= 2 || !existeUltimoWa) {
+    await cargarHistorialWhatsAppEnDexie();
   }
 }
 
-export async function cargarHistorialWhatsAppEnDexie(force = false): Promise<{ gastosCargados: number; abonosCargados: number }> {
+export async function cargarHistorialWhatsAppEnDexie(_force = false): Promise<{ gastosCargados: number; abonosCargados: number }> {
   try {
     const rawData = whatsappHistoricalData as { gastos?: GastoHogar[]; abonos?: AbonoSocio[] };
     const gastos = (rawData.gastos || []) as GastoHogar[];
     const abonos = (rawData.abonos || []) as AbonoSocio[];
 
-    const currentCount = await db.gastosHogar.count();
+    // NUNCA ejecutar .clear() para no borrar jamás los registros creados por el usuario en la app (gh-179...)
+    // Además, respetamos cualquier registro local que tenga una edición pendiente de subir (synced === false)
+    const pendientesGastosIds = new Set(
+      (await db.gastosHogar.filter((g) => g.synced === false).toArray()).map((g) => g.id)
+    );
+    const pendientesAbonosIds = new Set(
+      (await db.abonosSocios.filter((a) => a.synced === false).toArray()).map((a) => a.id)
+    );
 
-    // Si ya hay datos y no es forzado, solo agregamos los registros de WhatsApp que falten
-    if (force) {
-      await db.gastosHogar.clear();
-      await db.abonosSocios.clear();
+    const gastosAInsertar = gastos.filter((g) => !pendientesGastosIds.has(g.id));
+    const abonosAInsertar = abonos.filter((a) => !pendientesAbonosIds.has(a.id));
+
+    if (gastosAInsertar.length > 0) {
+      await db.gastosHogar.bulkPut(gastosAInsertar);
+    }
+    if (abonosAInsertar.length > 0) {
+      await db.abonosSocios.bulkPut(abonosAInsertar);
     }
 
-    if (gastos.length > 0) {
-      // bulkPut inserta los nuevos y actualiza existentes sin borrar registros locales creados por el usuario (gh-179...)
-      await db.gastosHogar.bulkPut(gastos);
-    }
-    if (abonos.length > 0) {
-      await db.abonosSocios.bulkPut(abonos);
-    }
-
-    return { gastosCargados: gastos.length, abonosCargados: abonos.length };
+    return { gastosCargados: gastosAInsertar.length, abonosCargados: abonosAInsertar.length };
   } catch (err) {
     console.warn('No se pudo cargar whatsappHistoricalData.json:', err);
     return { gastosCargados: 0, abonosCargados: 0 };

@@ -150,26 +150,39 @@ export async function descargarDeSupabase(): Promise<boolean> {
   }
 
   try {
-    // 1. Descargar gastos del hogar
-    const { data: remoteGastos, error: errGastos } = await supabase
-      .from('granja_gastos_hogar')
-      .select('*')
-      .order('fecha', { ascending: false });
+    // 1. Descargar gastos del hogar (priorizando todos los creados en la app + últimos 1000 históricos)
+    const [resRecientes, resApp] = await Promise.all([
+      supabase.from('granja_gastos_hogar').select('*').order('fecha', { ascending: false }).limit(1000),
+      supabase.from('granja_gastos_hogar').select('*').not('id', 'like', 'gh-wa-%'),
+    ]);
 
-    if (!errGastos && remoteGastos && remoteGastos.length > 0) {
-      const mapGastos: GastoHogar[] = remoteGastos.map((rg: any) => ({
-        id: rg.id,
-        fecha: rg.fecha,
-        categoria: rg.categoria,
-        descripcion: rg.descripcion,
-        monto: Number(rg.monto),
-        metodoPago: rg.metodo_pago,
-        pagadoPor: rg.pagado_por,
-        registradoPor: rg.registrado_por,
-        notas: rg.notas,
-        synced: true,
-        createdAt: rg.created_at,
-      }));
+    const filasRemotasMap = new Map<string, any>();
+    if (!resRecientes.error && resRecientes.data) {
+      resRecientes.data.forEach((r) => filasRemotasMap.set(r.id, r));
+    }
+    if (!resApp.error && resApp.data) {
+      resApp.data.forEach((r) => filasRemotasMap.set(r.id, r));
+    }
+
+    if (filasRemotasMap.size > 0) {
+      const localesPendientes = new Set(
+        (await db.gastosHogar.filter((g) => g.synced === false).toArray()).map((g) => g.id)
+      );
+      const mapGastos: GastoHogar[] = Array.from(filasRemotasMap.values())
+        .filter((rg) => !localesPendientes.has(rg.id))
+        .map((rg: any) => ({
+          id: rg.id,
+          fecha: rg.fecha,
+          categoria: rg.categoria,
+          descripcion: rg.descripcion,
+          monto: Number(rg.monto),
+          metodoPago: rg.metodo_pago,
+          pagadoPor: rg.pagado_por,
+          registradoPor: rg.registrado_por,
+          notas: rg.notas,
+          synced: true,
+          createdAt: rg.created_at,
+        }));
 
       await db.gastosHogar.bulkPut(mapGastos);
     }
@@ -181,17 +194,22 @@ export async function descargarDeSupabase(): Promise<boolean> {
       .order('fecha', { ascending: false });
 
     if (!errRetiros && remoteRetiros && remoteRetiros.length > 0) {
-      const mapRetiros: RetiroUtilidad[] = remoteRetiros.map((rr: any) => ({
-        id: rr.id,
-        fecha: rr.fecha,
-        origenNegocio: rr.origen_negocio,
-        monto: Number(rr.monto),
-        descripcion: rr.descripcion,
-        metodoPago: rr.metodo_pago,
-        destinatario: rr.destinatario,
-        synced: true,
-        createdAt: rr.created_at,
-      }));
+      const localesPendientesRet = new Set(
+        (await db.retirosUtilidad.filter((r) => r.synced === false).toArray()).map((r) => r.id)
+      );
+      const mapRetiros: RetiroUtilidad[] = remoteRetiros
+        .filter((rr: any) => !localesPendientesRet.has(rr.id))
+        .map((rr: any) => ({
+          id: rr.id,
+          fecha: rr.fecha,
+          origenNegocio: rr.origen_negocio,
+          monto: Number(rr.monto),
+          descripcion: rr.descripcion,
+          metodoPago: rr.metodo_pago,
+          destinatario: rr.destinatario,
+          synced: true,
+          createdAt: rr.created_at,
+        }));
 
       await db.retirosUtilidad.bulkPut(mapRetiros);
     }
@@ -203,18 +221,23 @@ export async function descargarDeSupabase(): Promise<boolean> {
       .order('fecha', { ascending: false });
 
     if (!errAbonos && remoteAbonos && remoteAbonos.length > 0) {
-      const mapAbonos: AbonoSocio[] = remoteAbonos.map((ra: any) => ({
-        id: ra.id,
-        fecha: ra.fecha,
-        monto: Number(ra.monto),
-        pagadoPor: ra.pagado_por,
-        recibidoPor: ra.recibido_por,
-        metodoPago: ra.metodo_pago,
-        descripcion: ra.descripcion,
-        notas: ra.notas,
-        synced: true,
-        createdAt: ra.created_at,
-      }));
+      const localesPendientesAb = new Set(
+        (await db.abonosSocios.filter((a) => a.synced === false).toArray()).map((a) => a.id)
+      );
+      const mapAbonos: AbonoSocio[] = remoteAbonos
+        .filter((ra: any) => !localesPendientesAb.has(ra.id))
+        .map((ra: any) => ({
+          id: ra.id,
+          fecha: ra.fecha,
+          monto: Number(ra.monto),
+          pagadoPor: ra.pagado_por,
+          recibidoPor: ra.recibido_por,
+          metodoPago: ra.metodo_pago,
+          descripcion: ra.descripcion,
+          notas: ra.notas,
+          synced: true,
+          createdAt: ra.created_at,
+        }));
 
       await db.abonosSocios.bulkPut(mapAbonos);
     }
