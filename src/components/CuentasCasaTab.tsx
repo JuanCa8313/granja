@@ -45,6 +45,8 @@ import {
   Sprout,
   Milk,
   CreditCard,
+  Pencil,
+  X,
 } from 'lucide-react';
 
 const MESES = [
@@ -98,10 +100,30 @@ export function CuentasCasaTab() {
   // Formulario de Retiro
   const [montoRetiro, setMontoRetiro] = useState('');
   const [fechaRetiro, setFechaRetiro] = useState<string>(fechaHoyLocal);
-  const [origenRetiro, setOrigenRetiro] = useState<'gallinas' | 'pollos' | 'cultivos' | 'general'>('gallinas');
+  const [origenRetiro, setOrigenRetiro] = useState<'gallinas' | 'pollos' | 'cultivos' | 'pescados' | 'general'>('gallinas');
   const [descRetiro, setDescRetiro] = useState('');
   const [metodoPagoRetiro, setMetodoPagoRetiro] = useState<'efectivo' | 'banco'>('efectivo');
   const [destinatarioRetiro, setDestinatarioRetiro] = useState<string>('Juanca');
+
+  // Estado de edición de registro existente
+  const [itemEnEdicion, setItemEnEdicion] = useState<{
+    id: string;
+    tipo: 'gasto' | 'abono' | 'retiro';
+    item: GastoHogar | AbonoSocio | RetiroUtilidad;
+  } | null>(null);
+
+  const handleCancelarEdicion = () => {
+    setItemEnEdicion(null);
+    setMontoGasto('');
+    setDescGasto('');
+    setFechaGasto(fechaHoyLocal);
+    setMontoAbono('');
+    setDescAbono('');
+    setFechaAbono(fechaHoyLocal);
+    setMontoRetiro('');
+    setDescRetiro('');
+    setFechaRetiro(fechaHoyLocal);
+  };
 
   // Sincronizar alias del usuario conectado por defecto
   useEffect(() => {
@@ -269,6 +291,27 @@ export function CuentasCasaTab() {
     if (!valor || valor <= 0) return;
 
     const fechaFinal = fechaGasto || getFechaLocalYYYYMMDD();
+
+    if (itemEnEdicion && itemEnEdicion.tipo === 'gasto') {
+      const gastoOriginal = itemEnEdicion.item as GastoHogar;
+      await db.gastosHogar.update(itemEnEdicion.id, {
+        fecha: fechaFinal,
+        categoria: categoriaGasto,
+        descripcion: descGasto.trim() || `Gasto de ${categoriasMeta[categoriaGasto].label}`,
+        monto: valor,
+        metodoPago: metodoPagoGasto,
+        pagadoPor: pagadoPorGasto,
+        registradoPor: gastoOriginal.registradoPor || userAlias,
+        synced: false,
+      });
+      handleCancelarEdicion();
+      sincronizarFiltroConFecha(fechaFinal);
+      await cargarDatos();
+      notificarCambioDatos('local-gasto');
+      pushCambiosLocalesASupabase();
+      return;
+    }
+
     const nuevoGasto: GastoHogar = {
       id: generarIdLocal('gh'),
       fecha: fechaFinal,
@@ -300,6 +343,24 @@ export function CuentasCasaTab() {
     const receptor = recibidoPorAbono === emisor ? (emisor === 'Alex' ? 'Camilo' : 'Alex') : recibidoPorAbono;
     const fechaFinal = fechaAbono || getFechaLocalYYYYMMDD();
 
+    if (itemEnEdicion && itemEnEdicion.tipo === 'abono') {
+      await db.abonosSocios.update(itemEnEdicion.id, {
+        fecha: fechaFinal,
+        monto: valor,
+        pagadoPor: emisor,
+        recibidoPor: receptor,
+        metodoPago: metodoPagoAbono,
+        descripcion: descAbono.trim() || `Abono de ${emisor} para ${receptor}`,
+        synced: false,
+      });
+      handleCancelarEdicion();
+      sincronizarFiltroConFecha(fechaFinal);
+      await cargarDatos();
+      notificarCambioDatos('local-abono');
+      pushCambiosLocalesASupabase();
+      return;
+    }
+
     const nuevoAbono: AbonoSocio = {
       id: generarIdLocal('ab'),
       fecha: fechaFinal,
@@ -327,6 +388,25 @@ export function CuentasCasaTab() {
     if (!valor || valor <= 0) return;
 
     const fechaFinal = fechaRetiro || getFechaLocalYYYYMMDD();
+
+    if (itemEnEdicion && itemEnEdicion.tipo === 'retiro') {
+      await db.retirosUtilidad.update(itemEnEdicion.id, {
+        fecha: fechaFinal,
+        origenNegocio: origenRetiro,
+        monto: valor,
+        descripcion: descRetiro.trim() || `Retiro de utilidades de ${origenRetiro}`,
+        metodoPago: metodoPagoRetiro,
+        destinatario: destinatarioRetiro,
+        synced: false,
+      });
+      handleCancelarEdicion();
+      sincronizarFiltroConFecha(fechaFinal);
+      await cargarDatos();
+      notificarCambioDatos('local-retiro');
+      pushCambiosLocalesASupabase();
+      return;
+    }
+
     const nuevoRetiro: RetiroUtilidad = {
       id: generarIdLocal('ret'),
       fecha: fechaFinal,
@@ -346,6 +426,44 @@ export function CuentasCasaTab() {
     await cargarDatos();
     notificarCambioDatos('local-retiro');
     pushCambiosLocalesASupabase();
+  };
+
+  const handleIniciarEdicion = (m: {
+    id: string;
+    tipo: 'gasto' | 'abono' | 'retiro';
+    item: GastoHogar | AbonoSocio | RetiroUtilidad;
+  }) => {
+    setItemEnEdicion(m);
+    if (m.tipo === 'gasto') {
+      const g = m.item as GastoHogar;
+      setActiveSubTab('gastos');
+      setMontoGasto(formatNumeroMiles(g.monto));
+      setFechaGasto(g.fecha);
+      setCategoriaGasto(g.categoria);
+      setDescGasto(g.descripcion);
+      setMetodoPagoGasto(g.metodoPago);
+      setPagadoPorGasto(normalizarAlias(g.pagadoPor) === 'Alex' ? 'Alex' : 'Juanca');
+    } else if (m.tipo === 'abono') {
+      const a = m.item as AbonoSocio;
+      setActiveSubTab('abonos');
+      setMontoAbono(formatNumeroMiles(a.monto));
+      setFechaAbono(a.fecha);
+      setPagadoPorAbono(normalizarAlias(a.pagadoPor) === 'Alex' ? 'Alex' : 'Camilo');
+      setRecibidoPorAbono(normalizarAlias(a.recibidoPor) === 'Alex' ? 'Alex' : 'Camilo');
+      setDescAbono(a.descripcion || '');
+      setMetodoPagoAbono(a.metodoPago);
+    } else {
+      const r = m.item as RetiroUtilidad;
+      setActiveSubTab('retiros');
+      setMontoRetiro(formatNumeroMiles(r.monto));
+      setFechaRetiro(r.fecha);
+      setOrigenRetiro(r.origenNegocio);
+      setDescRetiro(r.descripcion);
+      setMetodoPagoRetiro(r.metodoPago);
+      setDestinatarioRetiro(normalizarAlias(r.destinatario) === 'Alex' ? 'Alex' : 'Juanca');
+    }
+    // Desplazar suavemente hacia el formulario
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleEliminarGasto = async (id: string) => {
@@ -710,10 +828,30 @@ export function CuentasCasaTab() {
         <form onSubmit={handleGuardarGasto} className="bg-white p-4 rounded-3xl border border-slate-200 shadow-xs space-y-3.5">
           <div className="flex items-center justify-between">
             <h3 className="font-black text-slate-900 text-xs uppercase tracking-wide flex items-center gap-1.5">
-              <PlusCircle className="w-4 h-4 text-rose-600" />
-              <span>Nuevo Gasto Familiar</span>
+              {itemEnEdicion?.tipo === 'gasto' ? (
+                <>
+                  <Pencil className="w-4 h-4 text-amber-600" />
+                  <span>Modificar Gasto del Hogar</span>
+                </>
+              ) : (
+                <>
+                  <PlusCircle className="w-4 h-4 text-rose-600" />
+                  <span>Nuevo Gasto Familiar</span>
+                </>
+              )}
             </h3>
-            <span className="text-[10px] text-slate-400 font-semibold">Se divide 50/50</span>
+            {itemEnEdicion?.tipo === 'gasto' ? (
+              <button
+                type="button"
+                onClick={handleCancelarEdicion}
+                className="flex items-center gap-1 text-[10px] text-slate-500 hover:text-slate-800 bg-slate-100 hover:bg-slate-200 px-2 py-0.5 rounded-full font-bold cursor-pointer transition"
+              >
+                <X className="w-3 h-3" />
+                <span>Cancelar edición</span>
+              </button>
+            ) : (
+              <span className="text-[10px] text-slate-400 font-semibold">Se divide 50/50</span>
+            )}
           </div>
 
           <div className="grid grid-cols-2 gap-2">
@@ -838,10 +976,23 @@ export function CuentasCasaTab() {
 
           <button
             type="submit"
-            className="w-full py-3 bg-rose-600 hover:bg-rose-700 text-white font-black text-xs rounded-2xl shadow-sm transition active:scale-95 cursor-pointer flex items-center justify-center gap-2"
+            className={`w-full py-3 font-black text-xs rounded-2xl shadow-sm transition active:scale-95 cursor-pointer flex items-center justify-center gap-2 ${
+              itemEnEdicion?.tipo === 'gasto'
+                ? 'bg-amber-600 hover:bg-amber-700 text-white'
+                : 'bg-rose-600 hover:bg-rose-700 text-white'
+            }`}
           >
-            <TrendingDown className="w-4 h-4" />
-            <span>Registrar Salida de Dinero ({pagadoPorGasto === 'Alex' ? 'Alex' : 'Camilo'})</span>
+            {itemEnEdicion?.tipo === 'gasto' ? (
+              <>
+                <CheckCircle2 className="w-4 h-4" />
+                <span>Guardar Cambios del Gasto</span>
+              </>
+            ) : (
+              <>
+                <TrendingDown className="w-4 h-4" />
+                <span>Registrar Salida de Dinero ({pagadoPorGasto === 'Alex' ? 'Alex' : 'Camilo'})</span>
+              </>
+            )}
           </button>
         </form>
       )}
@@ -851,12 +1002,32 @@ export function CuentasCasaTab() {
         <form onSubmit={handleGuardarAbono} className="bg-white p-4 rounded-3xl border border-slate-200 shadow-xs space-y-3.5">
           <div className="flex items-center justify-between">
             <h3 className="font-black text-slate-900 text-xs uppercase tracking-wide flex items-center gap-1.5">
-              <ArrowLeftRight className="w-4 h-4 text-indigo-600" />
-              <span>Abono Directo entre Socios</span>
+              {itemEnEdicion?.tipo === 'abono' ? (
+                <>
+                  <Pencil className="w-4 h-4 text-indigo-600" />
+                  <span>Modificar Abono entre Socios</span>
+                </>
+              ) : (
+                <>
+                  <ArrowLeftRight className="w-4 h-4 text-indigo-600" />
+                  <span>Abono Directo entre Socios</span>
+                </>
+              )}
             </h3>
-            <span className="text-[10px] text-indigo-600 font-bold bg-indigo-50 px-2 py-0.5 rounded-full">
-              Saldar Deuda 50/50
-            </span>
+            {itemEnEdicion?.tipo === 'abono' ? (
+              <button
+                type="button"
+                onClick={handleCancelarEdicion}
+                className="flex items-center gap-1 text-[10px] text-slate-500 hover:text-slate-800 bg-slate-100 hover:bg-slate-200 px-2 py-0.5 rounded-full font-bold cursor-pointer transition"
+              >
+                <X className="w-3 h-3" />
+                <span>Cancelar edición</span>
+              </button>
+            ) : (
+              <span className="text-[10px] text-indigo-600 font-bold bg-indigo-50 px-2 py-0.5 rounded-full">
+                Saldar Deuda 50/50
+              </span>
+            )}
           </div>
 
           <div className="grid grid-cols-2 gap-2">
@@ -971,10 +1142,23 @@ export function CuentasCasaTab() {
 
           <button
             type="submit"
-            className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xs rounded-2xl shadow-sm transition active:scale-95 cursor-pointer flex items-center justify-center gap-2"
+            className={`w-full py-3 font-black text-xs rounded-2xl shadow-sm transition active:scale-95 cursor-pointer flex items-center justify-center gap-2 ${
+              itemEnEdicion?.tipo === 'abono'
+                ? 'bg-amber-600 hover:bg-amber-700 text-white'
+                : 'bg-indigo-600 hover:bg-indigo-700 text-white'
+            }`}
           >
-            <ArrowLeftRight className="w-4 h-4" />
-            <span>Registrar Abono ({pagadoPorAbono} ➔ {recibidoPorAbono})</span>
+            {itemEnEdicion?.tipo === 'abono' ? (
+              <>
+                <CheckCircle2 className="w-4 h-4" />
+                <span>Guardar Cambios del Abono</span>
+              </>
+            ) : (
+              <>
+                <ArrowLeftRight className="w-4 h-4" />
+                <span>Registrar Abono ({pagadoPorAbono} ➔ {recibidoPorAbono})</span>
+              </>
+            )}
           </button>
         </form>
       )}
@@ -982,10 +1166,31 @@ export function CuentasCasaTab() {
       {/* 6. Formulario 3: Retiro de Utilidad de la Granja */}
       {activeSubTab === 'retiros' && (
         <form onSubmit={handleGuardarRetiro} className="bg-white p-4 rounded-3xl border border-slate-200 shadow-xs space-y-3.5">
-          <h3 className="font-black text-slate-900 text-xs uppercase tracking-wide flex items-center gap-1.5">
-            <ArrowDownLeft className="w-4 h-4 text-emerald-600" />
-            <span>Retiro de Utilidades hacia la Casa</span>
-          </h3>
+          <div className="flex items-center justify-between">
+            <h3 className="font-black text-slate-900 text-xs uppercase tracking-wide flex items-center gap-1.5">
+              {itemEnEdicion?.tipo === 'retiro' ? (
+                <>
+                  <Pencil className="w-4 h-4 text-emerald-600" />
+                  <span>Modificar Retiro de Utilidades</span>
+                </>
+              ) : (
+                <>
+                  <ArrowDownLeft className="w-4 h-4 text-emerald-600" />
+                  <span>Retiro de Utilidades hacia la Casa</span>
+                </>
+              )}
+            </h3>
+            {itemEnEdicion?.tipo === 'retiro' && (
+              <button
+                type="button"
+                onClick={handleCancelarEdicion}
+                className="flex items-center gap-1 text-[10px] text-slate-500 hover:text-slate-800 bg-slate-100 hover:bg-slate-200 px-2 py-0.5 rounded-full font-bold cursor-pointer transition"
+              >
+                <X className="w-3 h-3" />
+                <span>Cancelar edición</span>
+              </button>
+            )}
+          </div>
 
           <div className="grid grid-cols-2 gap-2">
             <div>
@@ -1064,6 +1269,7 @@ export function CuentasCasaTab() {
                 <option value="gallinas">🐔 Gallinas (Huevos)</option>
                 <option value="pollos">🍗 Pollos de Engorde</option>
                 <option value="cultivos">🌱 Cultivos & Huerto</option>
+                <option value="pescados">🐟 Piscicultura (Trucha/Tilapia)</option>
                 <option value="general">🚜 Caja General Granja</option>
               </select>
             </div>
@@ -1098,10 +1304,23 @@ export function CuentasCasaTab() {
 
           <button
             type="submit"
-            className="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs rounded-2xl shadow-sm transition active:scale-95 cursor-pointer flex items-center justify-center gap-2"
+            className={`w-full py-3 font-black text-xs rounded-2xl shadow-sm transition active:scale-95 cursor-pointer flex items-center justify-center gap-2 ${
+              itemEnEdicion?.tipo === 'retiro'
+                ? 'bg-amber-600 hover:bg-amber-700 text-white'
+                : 'bg-emerald-600 hover:bg-emerald-700 text-white'
+            }`}
           >
-            <TrendingUp className="w-4 h-4" />
-            <span>Ingresar Utilidad al Hogar</span>
+            {itemEnEdicion?.tipo === 'retiro' ? (
+              <>
+                <CheckCircle2 className="w-4 h-4" />
+                <span>Guardar Cambios del Retiro</span>
+              </>
+            ) : (
+              <>
+                <TrendingUp className="w-4 h-4" />
+                <span>Ingresar Utilidad al Hogar</span>
+              </>
+            )}
           </button>
         </form>
       )}
@@ -1231,17 +1450,29 @@ export function CuentasCasaTab() {
                     {formatCOP(m.monto)}
                   </span>
 
-                  <button
-                    onClick={() => {
-                      if (m.tipo === 'gasto') handleEliminarGasto(m.id);
-                      else if (m.tipo === 'abono') handleEliminarAbono(m.id);
-                      else handleEliminarRetiro(m.id);
-                    }}
-                    className="p-1 text-slate-300 hover:text-rose-500 transition cursor-pointer"
-                    title="Eliminar registro"
-                  >
-                    <Trash2 className="w-3.5 h-3.5" />
-                  </button>
+                  <div className="flex items-center gap-1">
+                    <button
+                      type="button"
+                      onClick={() => handleIniciarEdicion(m)}
+                      className="p-1 text-slate-300 hover:text-amber-600 transition cursor-pointer"
+                      title="Modificar este registro"
+                    >
+                      <Pencil className="w-3.5 h-3.5" />
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (m.tipo === 'gasto') handleEliminarGasto(m.id);
+                        else if (m.tipo === 'abono') handleEliminarAbono(m.id);
+                        else handleEliminarRetiro(m.id);
+                      }}
+                      className="p-1 text-slate-300 hover:text-rose-500 transition cursor-pointer"
+                      title="Eliminar registro"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}

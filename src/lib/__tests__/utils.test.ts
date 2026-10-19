@@ -157,4 +157,19 @@ describe('getFechaLocalYYYYMMDD y formateadores', () => {
     assert.equal(parseNumeroMiles('$ 25.000.000'), 25000000);
     assert.equal(parseNumeroMiles('500'), 500);
   });
+
+  it('permite actualizar un movimiento existente conservando su ID y ordenamiento', () => {
+    const movimientos = [
+      { id: 'gh-1', fecha: '2026-10-18', monto: 30000 },
+      { id: 'gh-2', fecha: '2026-10-19', monto: 50000 },
+    ];
+    // Simulación de edición inmutable
+    const editado = { ...movimientos[0], monto: 35000, fecha: '2026-10-20' };
+    const actualizados = movimientos.map((m) => (m.id === editado.id ? editado : m));
+    const ordenados = ordenarMovimientosRecientesPrimero(actualizados);
+
+    assert.equal(ordenados[0].id, 'gh-1');
+    assert.equal(ordenados[0].monto, 35000);
+    assert.equal(ordenados[1].id, 'gh-2');
+  });
 });
