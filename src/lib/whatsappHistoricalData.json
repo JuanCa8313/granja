@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generadoEl": "2026-10-13T21:30:23.097Z",
+  "generadoEl": "2026-10-19T14:33:02.601Z",
   "gastos": [
     {
       "id": "gh-wa-1",
@@ -5361,7 +5361,7 @@
     {
       "id": "gh-wa-427",
       "fecha": "2025-03-17",
-      "categoria": "imprevisto",
+      "categoria": "salud",
       "descripcion": "Magnesio",
       "monto": 32000,
       "metodoPago": "efectivo",
@@ -6830,7 +6830,7 @@
     {
       "id": "gh-wa-542",
       "fecha": "2025-06-05",
-      "categoria": "imprevisto",
+      "categoria": "salud",
       "descripcion": "Magnesio",
       "monto": 32000,
       "metodoPago": "efectivo",
@@ -8754,7 +8754,7 @@
     {
       "id": "gh-wa-693",
       "fecha": "2025-09-21",
-      "categoria": "imprevisto",
+      "categoria": "salud",
       "descripcion": "Magnesio evento",
       "monto": 50000,
       "metodoPago": "efectivo",
@@ -11146,7 +11146,7 @@
     {
       "id": "gh-wa-881",
       "fecha": "2026-01-18",
-      "categoria": "imprevisto",
+      "categoria": "salud",
       "descripcion": "Magnesio",
       "monto": 32000,
       "metodoPago": "efectivo",
@@ -12576,7 +12576,7 @@
     {
       "id": "gh-wa-992",
       "fecha": "2026-04-05",
-      "categoria": "imprevisto",
+      "categoria": "salud",
       "descripcion": "Magnesio",
       "monto": 34500,
       "metodoPago": "efectivo",
@@ -13629,7 +13629,7 @@
     {
       "id": "gh-wa-1073",
       "fecha": "2026-05-21",
-      "categoria": "imprevisto",
+      "categoria": "salud",
       "descripcion": "Magnesio",
       "monto": 36000,
       "metodoPago": "efectivo",
@@ -14513,7 +14513,7 @@
     {
       "id": "gh-wa-1141",
       "fecha": "2026-07-03",
-      "categoria": "imprevisto",
+      "categoria": "salud",
       "descripcion": "Propóleo y miel",
       "monto": 50000,
       "metodoPago": "efectivo",
@@ -14721,7 +14721,7 @@
     {
       "id": "gh-wa-1157",
       "fecha": "2026-07-15",
-      "categoria": "imprevisto",
+      "categoria": "salud",
       "descripcion": "Propóleo",
       "monto": 25000,
       "metodoPago": "efectivo",
@@ -15917,7 +15917,7 @@
     {
       "id": "gh-wa-1249",
       "fecha": "2026-08-31",
-      "categoria": "imprevisto",
+      "categoria": "salud",
       "descripcion": "Miel, polen y propóleo",
       "monto": 100000,
       "metodoPago": "efectivo",
@@ -16021,7 +16021,7 @@
     {
       "id": "gh-wa-1257",
       "fecha": "2026-09-01",
-      "categoria": "imprevisto",
+      "categoria": "salud",
       "descripcion": "Magnesio",
       "monto": 36000,
       "metodoPago": "efectivo",
@@ -16775,7 +16775,7 @@
     {
       "id": "gh-wa-1315",
       "fecha": "2026-10-08",
-      "categoria": "imprevisto",
+      "categoria": "salud",
       "descripcion": "Propóleos",
       "monto": 25000,
       "metodoPago": "efectivo",
@@ -16801,7 +16801,7 @@
     {
       "id": "gh-wa-1317",
       "fecha": "2026-10-08",
-      "categoria": "imprevisto",
+      "categoria": "mantenimiento",
       "descripcion": "Beyot y gurbia",
       "monto": 40000,
       "metodoPago": "efectivo",
@@ -16953,6 +16953,136 @@
       "notas": "Cuido trucha $ 194.000",
       "synced": true,
       "createdAt": "2026-10-13T12:00:00.000Z"
+    },
+    {
+      "id": "gh-wa-1329",
+      "fecha": "2026-10-13",
+      "categoria": "mercado",
+      "descripcion": "Chorizos",
+      "monto": 40000,
+      "metodoPago": "efectivo",
+      "pagadoPor": "Alex",
+      "registradoPor": "Fredy Alexander Zapata",
+      "notas": "Chorizos $ 40.000",
+      "synced": true,
+      "createdAt": "2026-10-13T12:00:00.000Z"
+    },
+    {
+      "id": "gh-wa-1330",
+      "fecha": "2026-10-15",
+      "categoria": "vaca",
+      "descripcion": "Lima y vacuna vaca",
+      "monto": 36600,
+      "metodoPago": "efectivo",
+      "pagadoPor": "Alex",
+      "registradoPor": "Fredy Alexander Zapata",
+      "notas": "Lima y vacuna vaca $ 36.600",
+      "synced": true,
+      "createdAt": "2026-10-15T12:00:00.000Z"
+    },
+    {
+      "id": "gh-wa-1331",
+      "fecha": "2026-10-15",
+      "categoria": "salud",
+      "descripcion": "Magnesio y altamisa",
+      "monto": 42800,
+      "metodoPago": "efectivo",
+      "pagadoPor": "Alex",
+      "registradoPor": "Fredy Alexander Zapata",
+      "notas": "Magnesio y altamisa $ 42.800",
+      "synced": true,
+      "createdAt": "2026-10-15T12:00:00.000Z"
+    },
+    {
+      "id": "gh-wa-1332",
+      "fecha": "2026-10-15",
+      "categoria": "mercado",
+      "descripcion": "Verduras",
+      "monto": 25800,
+      "metodoPago": "efectivo",
+      "pagadoPor": "Alex",
+      "registradoPor": "Fredy Alexander Zapata",
+      "notas": "Verduras $ 25.800",
+      "synced": true,
+      "createdAt": "2026-10-15T12:00:00.000Z"
+    },
+    {
+      "id": "gh-wa-1333",
+      "fecha": "2026-10-15",
+      "categoria": "mantenimiento",
+      "descripcion": "Cuido gata",
+      "monto": 19800,
+      "metodoPago": "efectivo",
+      "pagadoPor": "Alex",
+      "registradoPor": "Fredy Alexander Zapata",
+      "notas": "Cuido gata $ 19.800",
+      "synced": true,
+      "createdAt": "2026-10-15T12:00:00.000Z"
+    },
+    {
+      "id": "gh-wa-1334",
+      "fecha": "2026-10-15",
+      "categoria": "mercado",
+      "descripcion": "Carne",
+      "monto": 37000,
+      "metodoPago": "efectivo",
+      "pagadoPor": "Alex",
+      "registradoPor": "Fredy Alexander Zapata",
+      "notas": "Carne $ 37.000",
+      "synced": true,
+      "createdAt": "2026-10-15T12:00:00.000Z"
+    },
+    {
+      "id": "gh-wa-1335",
+      "fecha": "2026-10-15",
+      "categoria": "mercado",
+      "descripcion": "D1",
+      "monto": 28450,
+      "metodoPago": "efectivo",
+      "pagadoPor": "Alex",
+      "registradoPor": "Fredy Alexander Zapata",
+      "notas": "D1 $ 28.450",
+      "synced": true,
+      "createdAt": "2026-10-15T12:00:00.000Z"
+    },
+    {
+      "id": "gh-wa-1336",
+      "fecha": "2026-10-17",
+      "categoria": "imprevisto",
+      "descripcion": "Nucheron",
+      "monto": 5000,
+      "metodoPago": "efectivo",
+      "pagadoPor": "Juanca",
+      "registradoPor": "Camilo😎",
+      "notas": "Nucheron $ 5.000",
+      "synced": true,
+      "createdAt": "2026-10-17T12:00:00.000Z"
+    },
+    {
+      "id": "gh-wa-1337",
+      "fecha": "2026-10-17",
+      "categoria": "imprevisto",
+      "descripcion": "Maiz",
+      "monto": 17000,
+      "metodoPago": "efectivo",
+      "pagadoPor": "Juanca",
+      "registradoPor": "Camilo😎",
+      "notas": "Maiz $ 17.000",
+      "synced": true,
+      "createdAt": "2026-10-17T12:00:00.000Z"
+    },
+    {
+      "id": "gh-wa-1338",
+      "fecha": "2026-10-17",
+      "categoria": "mantenimiento",
+      "descripcion": "Grapas",
+      "monto": 6500,
+      "metodoPago": "efectivo",
+      "pagadoPor": "Juanca",
+      "registradoPor": "Camilo😎",
+      "notas": "Grapas $ 6.500",
+      "synced": true,
+      "createdAt": "2026-10-17T12:00:00.000Z"
     }
   ],
   "abonos": [

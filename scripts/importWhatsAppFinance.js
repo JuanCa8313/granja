@@ -115,6 +115,10 @@ function clasificarCategoria(texto) {
     t.includes('medicina') ||
     t.includes('pastillas') ||
     t.includes('vitamina') ||
+    t.includes('magnesio') ||
+    t.includes('altamisa') ||
+    t.includes('propóleo') ||
+    t.includes('propoleo') ||
     t.includes('desodorante') ||
     t.includes('talco') ||
     t.includes('algodón') ||
@@ -139,7 +143,10 @@ function clasificarCategoria(texto) {
     t.includes('pila') ||
     t.includes('almuada') ||
     t.includes('almohada') ||
-    t.includes('cuido gata')
+    t.includes('cuido gata') ||
+    t.includes('grapas') ||
+    t.includes('beyot') ||
+    t.includes('gurbia')
   ) {
     return 'mantenimiento';
   }

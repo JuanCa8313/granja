@@ -1,7 +1,7 @@
 -- ==============================================================================
 -- 🚜 GRANJA OS HUB - IMPORTACIÓN HISTÓRICA COMPLETA DE WHATSAPP (2024 - 2026)
 -- Generado automáticamente desde: WhatsApp Chat with Finance.txt
--- Total Gastos: 1304 | Total Abonos: 24
+-- Total Gastos: 1314 | Total Abonos: 24
 -- ==============================================================================
 
 -- 1. CREACIÓN DE TABLAS SI NO EXISTEN
@@ -66,7 +66,7 @@ END $$;
 TRUNCATE TABLE granja_gastos_hogar;
 TRUNCATE TABLE granja_abonos_socios;
 
--- 4. INSERCIÓN DE GASTOS DEL HOGAR (1304 REGISTROS)
+-- 4. INSERCIÓN DE GASTOS DEL HOGAR (1314 REGISTROS)
 INSERT INTO granja_gastos_hogar (id, fecha, categoria, descripcion, monto, metodo_pago, pagado_por, registrado_por, notas, created_at)
 VALUES
   ('gh-wa-1', '2024-07-17', 'servicios', 'Agua', 58600, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Agua $ 58.600', '2024-07-17T12:00:00.000Z'),
@@ -481,7 +481,7 @@ VALUES
   ('gh-wa-424', '2025-03-13', 'mercado', 'Verduras', 26000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Verduras $26.000', '2025-03-13T12:00:00.000Z'),
   ('gh-wa-425', '2025-03-14', 'servicios', 'Gasolina', 83000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Gasolina $83.000', '2025-03-14T12:00:00.000Z'),
   ('gh-wa-426', '2025-03-16', 'mercado', 'Tortas', 36000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Tortas $36.000', '2025-03-16T12:00:00.000Z'),
-  ('gh-wa-427', '2025-03-17', 'imprevisto', 'Magnesio', 32000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Magnesio $32.000', '2025-03-17T12:00:00.000Z'),
+  ('gh-wa-427', '2025-03-17', 'salud', 'Magnesio', 32000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Magnesio $32.000', '2025-03-17T12:00:00.000Z'),
   ('gh-wa-428', '2025-03-17', 'imprevisto', 'Frijol', 11000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Frijol $11.000', '2025-03-17T12:00:00.000Z'),
   ('gh-wa-429', '2025-03-18', 'mercado', 'Chorizos y morcilla', 62000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Chorizos y morcilla $62.000', '2025-03-18T12:00:00.000Z'),
   ('gh-wa-430', '2025-03-21', 'imprevisto', 'Huevos', 17000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Huevos $17.000', '2025-03-21T12:00:00.000Z'),
@@ -594,7 +594,7 @@ VALUES
   ('gh-wa-539', '2025-05-29', 'mercado', 'Arepas y queso', 30000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Arepas y queso $30.000', '2025-05-29T12:00:00.000Z'),
   ('gh-wa-540', '2025-06-01', 'imprevisto', 'Comida', 46000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Comida $46.000', '2025-06-01T12:00:00.000Z'),
   ('gh-wa-541', '2025-06-03', 'servicios', 'Administración mes de mayo', 70000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Administración mes de mayo $70.000', '2025-06-03T12:00:00.000Z'),
-  ('gh-wa-542', '2025-06-05', 'imprevisto', 'Magnesio', 32000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Magnesio $32.000', '2025-06-05T12:00:00.000Z'),
+  ('gh-wa-542', '2025-06-05', 'salud', 'Magnesio', 32000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Magnesio $32.000', '2025-06-05T12:00:00.000Z'),
   ('gh-wa-543', '2025-06-05', 'pollos', 'Pollas y gatas', 23000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Pollas y gatas $23.000', '2025-06-05T12:00:00.000Z'),
   ('gh-wa-544', '2025-06-05', 'mercado', 'Verduras', 27500, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Verduras $27.500', '2025-06-05T12:00:00.000Z'),
   ('gh-wa-545', '2025-06-05', 'mercado', 'Pollo', 43950, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Pollo $43.950', '2025-06-05T12:00:00.000Z'),
@@ -742,7 +742,7 @@ VALUES
   ('gh-wa-690', '2025-09-15', 'imprevisto', 'Huevos', 17000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Huevos $17.000', '2025-09-15T12:00:00.000Z'),
   ('gh-wa-691', '2025-09-19', 'mercado', 'Helados', 39000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Helados $39.000', '2025-09-19T12:00:00.000Z'),
   ('gh-wa-692', '2025-09-20', 'imprevisto', 'Cómoda', 41800, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Cómoda $41.800', '2025-09-20T12:00:00.000Z'),
-  ('gh-wa-693', '2025-09-21', 'imprevisto', 'Magnesio evento', 50000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Magnesio evento $50.000', '2025-09-21T12:00:00.000Z'),
+  ('gh-wa-693', '2025-09-21', 'salud', 'Magnesio evento', 50000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Magnesio evento $50.000', '2025-09-21T12:00:00.000Z'),
   ('gh-wa-694', '2025-09-21', 'mercado', 'D1', 16500, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'D1 $ 16.500', '2025-09-21T12:00:00.000Z'),
   ('gh-wa-695', '2025-09-23', 'servicios', 'Gas', 105000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Gas $ 105.000', '2025-09-23T12:00:00.000Z'),
   ('gh-wa-696', '2025-09-23', 'mercado', 'Verdura', 33700, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Verdura $33.700', '2025-09-23T12:00:00.000Z'),
@@ -926,7 +926,7 @@ VALUES
   ('gh-wa-878', '2026-01-18', 'mercado', 'Chorizos, arepas etc', 88000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Chorizos, arepas etc $ 88.000', '2026-01-18T12:00:00.000Z'),
   ('gh-wa-879', '2026-01-18', 'gallinas', 'Embudo gallinas', 75000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Embudo gallinas $ 75.000', '2026-01-18T12:00:00.000Z'),
   ('gh-wa-880', '2026-01-18', 'mercado', 'Carne molida', 35500, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Carne molida $35.500', '2026-01-18T12:00:00.000Z'),
-  ('gh-wa-881', '2026-01-18', 'imprevisto', 'Magnesio', 32000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Magnesio $32.000', '2026-01-18T12:00:00.000Z'),
+  ('gh-wa-881', '2026-01-18', 'salud', 'Magnesio', 32000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Magnesio $32.000', '2026-01-18T12:00:00.000Z'),
   ('gh-wa-882', '2026-01-18', 'gallinas', 'Cuido gallinas', 43500, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Cuido gallinas $43.500', '2026-01-18T12:00:00.000Z'),
   ('gh-wa-883', '2026-01-18', 'mercado', 'Quesito', 8000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Quesito $8.000', '2026-01-18T12:00:00.000Z'),
   ('gh-wa-884', '2026-01-18', 'imprevisto', 'Conos', 16000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Conos $16.000', '2026-01-18T12:00:00.000Z'),
@@ -1036,7 +1036,7 @@ VALUES
   ('gh-wa-989', '2026-04-05', 'mercado', 'Verduras y D1', 45000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Verduras y D1 $ 45.000', '2026-04-05T12:00:00.000Z'),
   ('gh-wa-990', '2026-04-05', 'mercado', 'Chorizos y morcilla', 97000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Chorizos y morcilla $ 97.000', '2026-04-05T12:00:00.000Z'),
   ('gh-wa-991', '2026-04-05', 'imprevisto', 'Ara', 25800, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Ara $25.800', '2026-04-05T12:00:00.000Z'),
-  ('gh-wa-992', '2026-04-05', 'imprevisto', 'Magnesio', 34500, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Magnesio 34.500', '2026-04-05T12:00:00.000Z'),
+  ('gh-wa-992', '2026-04-05', 'salud', 'Magnesio', 34500, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Magnesio 34.500', '2026-04-05T12:00:00.000Z'),
   ('gh-wa-993', '2026-04-05', 'mercado', 'D1', 177430, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'D1 $ 177.430', '2026-04-05T12:00:00.000Z'),
   ('gh-wa-994', '2026-04-05', 'imprevisto', 'Pago Santi', 120000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Pago Santi $ 120.000', '2026-04-05T12:00:00.000Z'),
   ('gh-wa-995', '2026-04-06', 'imprevisto', 'Aceite de coco', 64000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Aceite de coco $ 64.000', '2026-04-06T12:00:00.000Z'),
@@ -1117,7 +1117,7 @@ VALUES
   ('gh-wa-1070', '2026-05-21', 'mercado', 'Verduras 1', 17000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Verduras 1 $ 17.000', '2026-05-21T12:00:00.000Z'),
   ('gh-wa-1071', '2026-05-21', 'mercado', 'Verduras 2', 41400, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Verduras 2 $ 41.400', '2026-05-21T12:00:00.000Z'),
   ('gh-wa-1072', '2026-05-21', 'salud', 'Talco', 22300, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Talco $ 22.300', '2026-05-21T12:00:00.000Z'),
-  ('gh-wa-1073', '2026-05-21', 'imprevisto', 'Magnesio', 36000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Magnesio $ 36.000', '2026-05-21T12:00:00.000Z'),
+  ('gh-wa-1073', '2026-05-21', 'salud', 'Magnesio', 36000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Magnesio $ 36.000', '2026-05-21T12:00:00.000Z'),
   ('gh-wa-1074', '2026-05-21', 'servicios', 'Gasolina', 171800, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Gasolina $ 171.800', '2026-05-21T12:00:00.000Z'),
   ('gh-wa-1075', '2026-05-21', 'mercado', 'Cuido sol store', 15000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Cuido sol store $ 15.000', '2026-05-21T12:00:00.000Z'),
   ('gh-wa-1076', '2026-05-23', 'gallinas', 'Abono gallinas Samu', 400000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Abono gallinas Samu $ 400.000', '2026-05-23T12:00:00.000Z'),
@@ -1185,7 +1185,7 @@ VALUES
   ('gh-wa-1138', '2026-07-02', 'mantenimiento', 'Cuido gata', 6750, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Cuido gata $ 6.750', '2026-07-02T12:00:00.000Z'),
   ('gh-wa-1139', '2026-07-02', 'gallinas', 'Pulgas gallinas', 20000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Pulgas gallinas $ 20.000', '2026-07-02T12:00:00.000Z'),
   ('gh-wa-1140', '2026-07-02', 'mercado', 'Parmesano', 15350, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Parmesano $ 15.350', '2026-07-02T12:00:00.000Z'),
-  ('gh-wa-1141', '2026-07-03', 'imprevisto', 'Propóleo y miel', 50000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Propóleo y miel $ 50.000', '2026-07-03T12:00:00.000Z'),
+  ('gh-wa-1141', '2026-07-03', 'salud', 'Propóleo y miel', 50000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Propóleo y miel $ 50.000', '2026-07-03T12:00:00.000Z'),
   ('gh-wa-1142', '2026-07-05', 'mercado', 'Carne', 23000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Carne $ 23.000', '2026-07-05T12:00:00.000Z'),
   ('gh-wa-1143', '2026-07-05', 'imprevisto', 'Son store', 68900, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Son store $ 68.900', '2026-07-05T12:00:00.000Z'),
   ('gh-wa-1144', '2026-07-05', 'mantenimiento', 'Espejo y tarro', 36000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Espejo y tarro $ 36.000', '2026-07-05T12:00:00.000Z'),
@@ -1201,7 +1201,7 @@ VALUES
   ('gh-wa-1154', '2026-07-14', 'mercado', 'D1', 80580, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'D1 $ 80.580', '2026-07-14T12:00:00.000Z'),
   ('gh-wa-1155', '2026-07-14', 'gallinas', 'Gallinas cuida', 170000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Gallinas cuida $ 170.000', '2026-07-14T12:00:00.000Z'),
   ('gh-wa-1156', '2026-07-15', 'mercado', 'Pollo', 64000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Pollo $ 64.000', '2026-07-15T12:00:00.000Z'),
-  ('gh-wa-1157', '2026-07-15', 'imprevisto', 'Propóleo', 25000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Propóleo $ 25.000', '2026-07-15T12:00:00.000Z'),
+  ('gh-wa-1157', '2026-07-15', 'salud', 'Propóleo', 25000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Propóleo $ 25.000', '2026-07-15T12:00:00.000Z'),
   ('gh-wa-1158', '2026-07-16', 'mercado', 'Chorizos y ají', 47000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Chorizos y ají $ 47.000', '2026-07-16T12:00:00.000Z'),
   ('gh-wa-1159', '2026-07-16', 'imprevisto', 'Carretera', 535000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Carretera $ 535.000', '2026-07-16T12:00:00.000Z'),
   ('gh-wa-1160', '2026-07-16', 'mercado', 'Arepas de chocolo', 9200, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Arepas de chocolo $    9.200', '2026-07-16T12:00:00.000Z'),
@@ -1293,7 +1293,7 @@ VALUES
   ('gh-wa-1246', '2026-08-29', 'servicios', 'Gasolina', 172300, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Gasolina $ 172.300', '2026-08-29T12:00:00.000Z'),
   ('gh-wa-1247', '2026-08-30', 'gallinas', 'Pago gallinas Samuel', 200000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Pago gallinas Samuel $ 200.000', '2026-08-30T12:00:00.000Z'),
   ('gh-wa-1248', '2026-08-31', 'imprevisto', 'Intereses juez', 54000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Intereses juez $ 54.000', '2026-08-31T12:00:00.000Z'),
-  ('gh-wa-1249', '2026-08-31', 'imprevisto', 'Miel, polen y propóleo', 100000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Miel, polen y propóleo $ 100.000', '2026-08-31T12:00:00.000Z'),
+  ('gh-wa-1249', '2026-08-31', 'salud', 'Miel, polen y propóleo', 100000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Miel, polen y propóleo $ 100.000', '2026-08-31T12:00:00.000Z'),
   ('gh-wa-1250', '2026-09-01', 'mercado', 'Verduras', 14800, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Verduras $ 14.800', '2026-09-01T12:00:00.000Z'),
   ('gh-wa-1251', '2026-09-01', 'mercado', 'D1', 74080, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'D1 $ 74.080', '2026-09-01T12:00:00.000Z'),
   ('gh-wa-1252', '2026-09-01', 'servicios', 'Gas', 105000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Gas $ 105.000', '2026-09-01T12:00:00.000Z'),
@@ -1301,7 +1301,7 @@ VALUES
   ('gh-wa-1254', '2026-09-01', 'salud', 'Vitamina c', 12000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Vitamina c $ 12.000', '2026-09-01T12:00:00.000Z'),
   ('gh-wa-1255', '2026-09-01', 'imprevisto', 'Triple 15', 23000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Triple 15 $ 23.000', '2026-09-01T12:00:00.000Z'),
   ('gh-wa-1256', '2026-09-01', 'imprevisto', 'Grasa guadaña', 21900, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Grasa guadaña $ 21.900', '2026-09-01T12:00:00.000Z'),
-  ('gh-wa-1257', '2026-09-01', 'imprevisto', 'Magnesio', 36000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Magnesio $ 36.000', '2026-09-01T12:00:00.000Z'),
+  ('gh-wa-1257', '2026-09-01', 'salud', 'Magnesio', 36000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Magnesio $ 36.000', '2026-09-01T12:00:00.000Z'),
   ('gh-wa-1258', '2026-09-01', 'mantenimiento', 'Cuido gata', 6750, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Cuido gata $ 6.750', '2026-09-01T12:00:00.000Z'),
   ('gh-wa-1259', '2026-09-01', 'mercado', 'Pollo', 56700, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Pollo $ 56.700', '2026-09-01T12:00:00.000Z'),
   ('gh-wa-1260', '2026-09-01', 'mercado', 'Leche y queso', 22000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Leche y queso $ 22.000', '2026-09-01T12:00:00.000Z'),
@@ -1359,9 +1359,9 @@ VALUES
   ('gh-wa-1312', '2026-10-07', 'mercado', 'Sol store', 62450, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Sol store $ 62.450', '2026-10-07T12:00:00.000Z'),
   ('gh-wa-1313', '2026-10-08', 'mercado', 'Morcilla', 24000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Morcilla $ 24.000', '2026-10-08T12:00:00.000Z'),
   ('gh-wa-1314', '2026-10-08', 'mercado', 'Almuerzo', 78000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Almuerzo $ 78.000', '2026-10-08T12:00:00.000Z'),
-  ('gh-wa-1315', '2026-10-08', 'imprevisto', 'Propóleos', 25000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Propóleos $ 25.000', '2026-10-08T12:00:00.000Z'),
+  ('gh-wa-1315', '2026-10-08', 'salud', 'Propóleos', 25000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Propóleos $ 25.000', '2026-10-08T12:00:00.000Z'),
   ('gh-wa-1316', '2026-10-08', 'mercado', 'Cafe', 7500, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Cafe $ 7.500', '2026-10-08T12:00:00.000Z'),
-  ('gh-wa-1317', '2026-10-08', 'imprevisto', 'Beyot y gurbia', 40000, 'efectivo', 'Juanca', 'Camilo😎', 'Beyot y gurbia $ 40.000', '2026-10-08T12:00:00.000Z'),
+  ('gh-wa-1317', '2026-10-08', 'mantenimiento', 'Beyot y gurbia', 40000, 'efectivo', 'Juanca', 'Camilo😎', 'Beyot y gurbia $ 40.000', '2026-10-08T12:00:00.000Z'),
   ('gh-wa-1318', '2026-10-08', 'servicios', 'Gasolina', 155070, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Gasolina $ 155.070', '2026-10-08T12:00:00.000Z'),
   ('gh-wa-1319', '2026-10-08', 'imprevisto', 'Abono German', 1000000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Abono German $ 1.000.000', '2026-10-08T12:00:00.000Z'),
   ('gh-wa-1320', '2026-10-10', 'mercado', 'Cafe', 21800, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Cafe $ 21.800', '2026-10-10T12:00:00.000Z'),
@@ -1372,7 +1372,17 @@ VALUES
   ('gh-wa-1325', '2026-10-13', 'mercado', 'D1', 110284, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'D1 $ 110.284', '2026-10-13T12:00:00.000Z'),
   ('gh-wa-1326', '2026-10-13', 'mercado', 'Verduras', 23500, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Verduras $23.500', '2026-10-13T12:00:00.000Z'),
   ('gh-wa-1327', '2026-10-13', 'salud', 'Vitamina C', 12000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Vitamina C $ 12.000', '2026-10-13T12:00:00.000Z'),
-  ('gh-wa-1328', '2026-10-13', 'trucha', 'Cuido trucha', 194000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Cuido trucha $ 194.000', '2026-10-13T12:00:00.000Z');
+  ('gh-wa-1328', '2026-10-13', 'trucha', 'Cuido trucha', 194000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Cuido trucha $ 194.000', '2026-10-13T12:00:00.000Z'),
+  ('gh-wa-1329', '2026-10-13', 'mercado', 'Chorizos', 40000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Chorizos $ 40.000', '2026-10-13T12:00:00.000Z'),
+  ('gh-wa-1330', '2026-10-15', 'vaca', 'Lima y vacuna vaca', 36600, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Lima y vacuna vaca $ 36.600', '2026-10-15T12:00:00.000Z'),
+  ('gh-wa-1331', '2026-10-15', 'salud', 'Magnesio y altamisa', 42800, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Magnesio y altamisa $ 42.800', '2026-10-15T12:00:00.000Z'),
+  ('gh-wa-1332', '2026-10-15', 'mercado', 'Verduras', 25800, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Verduras $ 25.800', '2026-10-15T12:00:00.000Z'),
+  ('gh-wa-1333', '2026-10-15', 'mantenimiento', 'Cuido gata', 19800, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Cuido gata $ 19.800', '2026-10-15T12:00:00.000Z'),
+  ('gh-wa-1334', '2026-10-15', 'mercado', 'Carne', 37000, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'Carne $ 37.000', '2026-10-15T12:00:00.000Z'),
+  ('gh-wa-1335', '2026-10-15', 'mercado', 'D1', 28450, 'efectivo', 'Alex', 'Fredy Alexander Zapata', 'D1 $ 28.450', '2026-10-15T12:00:00.000Z'),
+  ('gh-wa-1336', '2026-10-17', 'imprevisto', 'Nucheron', 5000, 'efectivo', 'Juanca', 'Camilo😎', 'Nucheron $ 5.000', '2026-10-17T12:00:00.000Z'),
+  ('gh-wa-1337', '2026-10-17', 'imprevisto', 'Maiz', 17000, 'efectivo', 'Juanca', 'Camilo😎', 'Maiz $ 17.000', '2026-10-17T12:00:00.000Z'),
+  ('gh-wa-1338', '2026-10-17', 'mantenimiento', 'Grapas', 6500, 'efectivo', 'Juanca', 'Camilo😎', 'Grapas $ 6.500', '2026-10-17T12:00:00.000Z');
 
 -- 5. INSERCIÓN DE ABONOS ENTRE SOCIOS (24 REGISTROS)
 INSERT INTO granja_abonos_socios (id, fecha, monto, pagado_por, recibido_por, metodo_pago, descripcion, notas, created_at)

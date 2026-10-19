@@ -216,21 +216,20 @@ export async function seedInitialGranjaData(): Promise<void> {
 
 export async function cargarHistorialWhatsAppEnDexie(force = false): Promise<{ gastosCargados: number; abonosCargados: number }> {
   try {
-    const currentCount = await db.gastosHogar.count();
-    if (currentCount > 50 && !force) {
-      return { gastosCargados: 0, abonosCargados: 0 };
-    }
-
-    if (force || currentCount <= 2) {
-      await db.gastosHogar.clear();
-      await db.abonosSocios.clear();
-    }
-
     const rawData = whatsappHistoricalData as { gastos?: GastoHogar[]; abonos?: AbonoSocio[] };
     const gastos = (rawData.gastos || []) as GastoHogar[];
     const abonos = (rawData.abonos || []) as AbonoSocio[];
 
+    const currentCount = await db.gastosHogar.count();
+
+    // Si ya hay datos y no es forzado, solo agregamos los registros de WhatsApp que falten
+    if (force) {
+      await db.gastosHogar.clear();
+      await db.abonosSocios.clear();
+    }
+
     if (gastos.length > 0) {
+      // bulkPut inserta los nuevos y actualiza existentes sin borrar registros locales creados por el usuario (gh-179...)
       await db.gastosHogar.bulkPut(gastos);
     }
     if (abonos.length > 0) {
