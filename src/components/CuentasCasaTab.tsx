@@ -7,7 +7,6 @@ import {
   type RetiroUtilidad,
   type AbonoSocio,
   type CategoriaGastoHogar,
-  cargarHistorialWhatsAppEnDexie,
 } from '../lib/db';
 import { useAuth } from '../contexts/AuthContext';
 import { pushCambiosLocalesASupabase, notificarCambioDatos, eliminarRegistroRemoto, sincronizarTodo } from '../lib/syncService';
@@ -39,7 +38,6 @@ import {
   CheckCircle2,
   Scale,
   Sparkles,
-  RefreshCw,
   Fish,
   Egg,
   Sprout,
@@ -154,6 +152,9 @@ export function CuentasCasaTab() {
 
   useEffect(() => {
     cargarDatos();
+    if (typeof window !== 'undefined' && navigator.onLine) {
+      sincronizarTodo().catch(() => {});
+    }
     const handleSync = (event: Event) => {
       const origen = (event as CustomEvent<{ origen?: string }>).detail?.origen || '';
       if (origen.startsWith('local-') || origen.startsWith('delete-')) {
@@ -501,19 +502,6 @@ export function CuentasCasaTab() {
     setDescAbono(`Abono para saldar cuentas (${deudor} a ${acreedor})`);
   };
 
-  const [isReloading, setIsReloading] = useState<boolean>(false);
-
-  const handleRecargarWhatsApp = async () => {
-    setIsReloading(true);
-    try {
-      await cargarHistorialWhatsAppEnDexie();
-      await sincronizarTodo();
-      await cargarDatos();
-    } finally {
-      setIsReloading(false);
-    }
-  };
-
   // Consolidar lista de movimientos ordenada por fecha descendente y timestamp de creación descendente
   const movimientosConsolidados = useMemo(() => {
     const items: Array<{
@@ -626,17 +614,6 @@ export function CuentasCasaTab() {
               </option>
             ))}
           </select>
-
-          {/* Botón para sincronizar con la nube y recargar historial sin perder datos */}
-          <button
-            type="button"
-            disabled={isReloading}
-            onClick={handleRecargarWhatsApp}
-            className="p-1.5 text-slate-400 hover:text-emerald-700 hover:bg-emerald-50 border border-slate-200 rounded-xl transition cursor-pointer disabled:opacity-50"
-            title="Sincronizar registros con la nube y WhatsApp"
-          >
-            <RefreshCw className={`w-3.5 h-3.5 ${isReloading ? 'animate-spin text-emerald-600' : ''}`} />
-          </button>
         </div>
       </div>
 
