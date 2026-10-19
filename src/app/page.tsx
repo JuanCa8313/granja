@@ -8,6 +8,7 @@ import InstallPwaBanner from '../components/InstallPwaBanner';
 import LoginScreen from '../components/LoginScreen';
 import { AuthProvider, useAuth, type AppRoleGranja } from '../contexts/AuthContext';
 import { seedInitialGranjaData } from '../lib/db';
+import { sincronizarTodo } from '../lib/syncService';
 import { Home, Wifi, WifiOff, Shield, ChevronDown, LogOut } from 'lucide-react';
 
 function GranjaAppContent() {
@@ -26,23 +27,26 @@ function GranjaAppContent() {
   }, [user]);
 
   useEffect(() => {
-
     setIsOnline(navigator.onLine);
     const handleOnline = () => {
       setIsOnline(true);
-      import('../lib/syncService').then(({ sincronizarTodo }) => sincronizarTodo());
+      sincronizarTodo().catch(() => {});
     };
     const handleOffline = () => setIsOnline(false);
 
     window.addEventListener('online', handleOnline);
     window.addEventListener('offline', handleOffline);
 
-    seedInitialGranjaData().then(() => {
-      setIsReady(true);
-      if (typeof window !== 'undefined' && navigator.onLine) {
-        import('../lib/syncService').then(({ sincronizarTodo }) => sincronizarTodo());
-      }
-    });
+    seedInitialGranjaData()
+      .catch((err) => {
+        console.warn('Error inicializando datos locales en Granja Hub:', err);
+      })
+      .finally(() => {
+        setIsReady(true);
+        if (typeof window !== 'undefined' && navigator.onLine) {
+          sincronizarTodo().catch(() => {});
+        }
+      });
 
     return () => {
       window.removeEventListener('online', handleOnline);
@@ -98,7 +102,7 @@ function GranjaAppContent() {
                 className="flex items-center gap-1 bg-slate-100 hover:bg-slate-200 py-1 px-2 rounded-xl text-[11px] font-bold text-slate-700 transition-all"
               >
                 <Shield className="w-3 h-3 text-amber-600" />
-                <span className="capitalize">{user?.roles[0].replace('_', ' ')}</span>
+                <span className="capitalize">{user?.roles?.[0]?.replace('_', ' ') ?? 'Usuario'}</span>
                 <ChevronDown className="w-3 h-3 text-slate-400" />
               </button>
 

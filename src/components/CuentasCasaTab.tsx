@@ -10,8 +10,13 @@ import {
   cargarHistorialWhatsAppEnDexie,
 } from '../lib/db';
 import { useAuth } from '../contexts/AuthContext';
-import { pushCambiosLocalesASupabase } from '../lib/syncService';
-import { formatCOP, formatFechaCorta } from '../lib/utils';
+import { pushCambiosLocalesASupabase, notificarCambioDatos, eliminarRegistroRemoto } from '../lib/syncService';
+import {
+  formatCOP,
+  formatFechaCorta,
+  getFechaLocalYYYYMMDD,
+  ordenarMovimientosRecientesPrimero,
+} from '../lib/utils';
 import {
   Wallet,
   PlusCircle,
@@ -64,6 +69,7 @@ export function CuentasCasaTab() {
 
   // Filtros de fecha
   const hoy = new Date();
+  const fechaHoyLocal = getFechaLocalYYYYMMDD(hoy);
   const mesActual = String(hoy.getMonth() + 1).padStart(2, '0');
   const anioActual = hoy.getFullYear().toString();
   const [filtroAnio, setFiltroAnio] = useState<string>(anioActual);
@@ -71,7 +77,7 @@ export function CuentasCasaTab() {
 
   // Formulario de Gasto
   const [montoGasto, setMontoGasto] = useState('');
-  const [fechaGasto, setFechaGasto] = useState<string>(hoy.toISOString().split('T')[0]);
+  const [fechaGasto, setFechaGasto] = useState<string>(fechaHoyLocal);
   const [categoriaGasto, setCategoriaGasto] = useState<CategoriaGastoHogar>('mercado');
   const [descGasto, setDescGasto] = useState('');
   const [metodoPagoGasto, setMetodoPagoGasto] = useState<'efectivo' | 'banco'>('efectivo');
@@ -79,7 +85,7 @@ export function CuentasCasaTab() {
 
   // Formulario de Abono
   const [montoAbono, setMontoAbono] = useState('');
-  const [fechaAbono, setFechaAbono] = useState<string>(hoy.toISOString().split('T')[0]);
+  const [fechaAbono, setFechaAbono] = useState<string>(fechaHoyLocal);
   const [pagadoPorAbono, setPagadoPorAbono] = useState<string>('Camilo');
   const [recibidoPorAbono, setRecibidoPorAbono] = useState<string>('Alex');
   const [descAbono, setDescAbono] = useState('');
@@ -87,7 +93,7 @@ export function CuentasCasaTab() {
 
   // Formulario de Retiro
   const [montoRetiro, setMontoRetiro] = useState('');
-  const [fechaRetiro, setFechaRetiro] = useState<string>(hoy.toISOString().split('T')[0]);
+  const [fechaRetiro, setFechaRetiro] = useState<string>(fechaHoyLocal);
   const [origenRetiro, setOrigenRetiro] = useState<'gallinas' | 'pollos' | 'cultivos' | 'general'>('gallinas');
   const [descRetiro, setDescRetiro] = useState('');
   const [metodoPagoRetiro, setMetodoPagoRetiro] = useState<'efectivo' | 'banco'>('efectivo');
@@ -110,17 +116,25 @@ export function CuentasCasaTab() {
   }, [userAlias]);
 
   const cargarDatos = async () => {
-    const g = await db.gastosHogar.reverse().toArray();
-    const r = await db.retirosUtilidad.reverse().toArray();
-    const a = await db.abonosSocios.reverse().toArray();
-    setGastos(g);
-    setRetiros(r);
-    setAbonos(a);
+    const [g, r, a] = await Promise.all([
+      db.gastosHogar.toArray(),
+      db.retirosUtilidad.toArray(),
+      db.abonosSocios.toArray(),
+    ]);
+    setGastos(ordenarMovimientosRecientesPrimero(g));
+    setRetiros(ordenarMovimientosRecientesPrimero(r));
+    setAbonos(ordenarMovimientosRecientesPrimero(a));
   };
 
   useEffect(() => {
     cargarDatos();
-    const handleSync = () => cargarDatos();
+    const handleSync = (event: Event) => {
+      const origen = (event as CustomEvent<{ origen?: string }>).detail?.origen || '';
+      if (origen.startsWith('local-') || origen.startsWith('delete-')) {
+        return;
+      }
+      cargarDatos();
+    };
     window.addEventListener('granja-db-synced', handleSync);
     return () => window.removeEventListener('granja-db-synced', handleSync);
   }, []);
@@ -231,14 +245,28 @@ export function CuentasCasaTab() {
     cultivo: { label: 'Cultivo', icon: Sprout, color: 'text-emerald-700 bg-emerald-50 border-emerald-300' },
   };
 
+  const sincronizarFiltroConFecha = (fechaRegistro: string) => {
+    const [anio, mes] = fechaRegistro.split('-');
+    if (anio && filtroAnio !== 'todos' && filtroAnio !== anio) {
+      setFiltroAnio(anio);
+    }
+    if (mes && filtroMes !== 'todos' && filtroMes !== mes) {
+      setFiltroMes(mes);
+    }
+  };
+
+  const generarIdLocal = (prefijo: 'gh' | 'ab' | 'ret'): string =>
+    `${prefijo}-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
+
   const handleGuardarGasto = async (e: React.FormEvent) => {
     e.preventDefault();
     const valor = parseFloat(montoGasto);
     if (!valor || valor <= 0) return;
 
+    const fechaFinal = fechaGasto || getFechaLocalYYYYMMDD();
     const nuevoGasto: GastoHogar = {
-      id: 'gh-' + Date.now(),
-      fecha: fechaGasto || new Date().toISOString().split('T')[0],
+      id: generarIdLocal('gh'),
+      fecha: fechaFinal,
       categoria: categoriaGasto,
       descripcion: descGasto.trim() || `Gasto de ${categoriasMeta[categoriaGasto].label}`,
       monto: valor,
@@ -252,7 +280,9 @@ export function CuentasCasaTab() {
     await db.gastosHogar.add(nuevoGasto);
     setMontoGasto('');
     setDescGasto('');
+    sincronizarFiltroConFecha(fechaFinal);
     await cargarDatos();
+    notificarCambioDatos('local-gasto');
     pushCambiosLocalesASupabase();
   };
 
@@ -263,10 +293,11 @@ export function CuentasCasaTab() {
 
     const emisor = pagadoPorAbono;
     const receptor = recibidoPorAbono === emisor ? (emisor === 'Alex' ? 'Camilo' : 'Alex') : recibidoPorAbono;
+    const fechaFinal = fechaAbono || getFechaLocalYYYYMMDD();
 
     const nuevoAbono: AbonoSocio = {
-      id: 'ab-' + Date.now(),
-      fecha: fechaAbono || new Date().toISOString().split('T')[0],
+      id: generarIdLocal('ab'),
+      fecha: fechaFinal,
       monto: valor,
       pagadoPor: emisor,
       recibidoPor: receptor,
@@ -279,7 +310,9 @@ export function CuentasCasaTab() {
     await db.abonosSocios.add(nuevoAbono);
     setMontoAbono('');
     setDescAbono('');
+    sincronizarFiltroConFecha(fechaFinal);
     await cargarDatos();
+    notificarCambioDatos('local-abono');
     pushCambiosLocalesASupabase();
   };
 
@@ -288,9 +321,10 @@ export function CuentasCasaTab() {
     const valor = parseFloat(montoRetiro);
     if (!valor || valor <= 0) return;
 
+    const fechaFinal = fechaRetiro || getFechaLocalYYYYMMDD();
     const nuevoRetiro: RetiroUtilidad = {
-      id: 'ret-' + Date.now(),
-      fecha: fechaRetiro || new Date().toISOString().split('T')[0],
+      id: generarIdLocal('ret'),
+      fecha: fechaFinal,
       origenNegocio: origenRetiro,
       monto: valor,
       descripcion: descRetiro.trim() || `Retiro de utilidades de ${origenRetiro}`,
@@ -303,7 +337,9 @@ export function CuentasCasaTab() {
     await db.retirosUtilidad.add(nuevoRetiro);
     setMontoRetiro('');
     setDescRetiro('');
+    sincronizarFiltroConFecha(fechaFinal);
     await cargarDatos();
+    notificarCambioDatos('local-retiro');
     pushCambiosLocalesASupabase();
   };
 
@@ -311,6 +347,8 @@ export function CuentasCasaTab() {
     if (confirm('¿Eliminar este registro de gasto?')) {
       await db.gastosHogar.delete(id);
       await cargarDatos();
+      notificarCambioDatos('delete-gasto');
+      eliminarRegistroRemoto('granja_gastos_hogar', id);
     }
   };
 
@@ -318,6 +356,8 @@ export function CuentasCasaTab() {
     if (confirm('¿Eliminar este registro de abono?')) {
       await db.abonosSocios.delete(id);
       await cargarDatos();
+      notificarCambioDatos('delete-abono');
+      eliminarRegistroRemoto('granja_abonos_socios', id);
     }
   };
 
@@ -325,6 +365,8 @@ export function CuentasCasaTab() {
     if (confirm('¿Eliminar este retiro de utilidad?')) {
       await db.retirosUtilidad.delete(id);
       await cargarDatos();
+      notificarCambioDatos('delete-retiro');
+      eliminarRegistroRemoto('granja_retiros_utilidad', id);
     }
   };
 
@@ -344,12 +386,14 @@ export function CuentasCasaTab() {
     }
   };
 
-  // Consolidar lista de movimientos ordenada por fecha y timestamp
+  // Consolidar lista de movimientos ordenada por fecha descendente y timestamp de creación descendente
   const movimientosConsolidados = useMemo(() => {
     const items: Array<{
       id: string;
       tipo: 'gasto' | 'abono' | 'retiro';
       fecha: string;
+      createdAt?: string;
+      synced?: boolean;
       monto: number;
       titulo: string;
       subtitulo: string;
@@ -364,6 +408,8 @@ export function CuentasCasaTab() {
           id: g.id,
           tipo: 'gasto',
           fecha: g.fecha,
+          createdAt: g.createdAt,
+          synced: g.synced,
           monto: g.monto,
           titulo: g.descripcion,
           subtitulo: `${categoriasMeta[g.categoria]?.label || g.categoria} • ${g.metodoPago}`,
@@ -382,6 +428,8 @@ export function CuentasCasaTab() {
           id: a.id,
           tipo: 'abono',
           fecha: a.fecha,
+          createdAt: a.createdAt,
+          synced: a.synced,
           monto: a.monto,
           titulo: a.descripcion || `Abono de ${pagador} para ${receptor}`,
           subtitulo: `Transferencia entre socios: ${pagador} ➔ ${receptor} • ${a.metodoPago}`,
@@ -399,6 +447,8 @@ export function CuentasCasaTab() {
           id: r.id,
           tipo: 'retiro',
           fecha: r.fecha,
+          createdAt: r.createdAt,
+          synced: r.synced,
           monto: r.monto,
           titulo: r.descripcion,
           subtitulo: `Utilidad de ${r.origenNegocio} • Entregado a ${dest}`,
@@ -409,7 +459,7 @@ export function CuentasCasaTab() {
       });
     }
 
-    return items.sort((a, b) => b.fecha.localeCompare(a.fecha));
+    return ordenarMovimientosRecientesPrimero(items);
   }, [gastosFiltrados, abonosFiltrados, retirosFiltrados, tipoListaFiltro]);
 
   return (
@@ -1146,6 +1196,14 @@ export function CuentasCasaTab() {
                       >
                         👤 {m.responsable}
                       </span>
+                      {m.synced === false && (
+                        <span
+                          className="text-[9px] px-1.5 py-0.5 rounded-md font-bold bg-amber-50 text-amber-700 border border-amber-200"
+                          title="Guardado localmente en el dispositivo. Se sincronizará cuando haya internet."
+                        >
+                          ⏳ Local
+                        </span>
+                      )}
                     </div>
 
                     <p className="text-[10px] text-slate-400 capitalize mt-0.5">

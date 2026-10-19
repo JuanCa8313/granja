@@ -112,11 +112,32 @@ export async function pushCambiosLocalesASupabase(): Promise<{ gastosSubidos: nu
         abonosSubidos = abonosPendientes.length;
       }
     }
+    if (gastosSubidos + retirosSubidos + abonosSubidos > 0) {
+      notificarCambioDatos('push');
+    }
   } catch (err) {
     console.warn('Error en pushCambiosLocalesASupabase:', err);
   }
 
   return { gastosSubidos, retirosSubidos, abonosSubidos };
+}
+
+/**
+ * Elimina un registro en Supabase cuando hay conexión para evitar que reaparezca en el siguiente pull.
+ */
+export async function eliminarRegistroRemoto(
+  tabla: 'granja_gastos_hogar' | 'granja_retiros_utilidad' | 'granja_abonos_socios',
+  id: string
+): Promise<void> {
+  const supabase = getSupabaseClient();
+  if (!supabase || typeof window === 'undefined' || !navigator.onLine) {
+    return;
+  }
+  try {
+    await supabase.from(tabla).delete().eq('id', id);
+  } catch (err) {
+    console.warn(`Error eliminando registro ${id} de ${tabla}:`, err);
+  }
 }
 
 /**

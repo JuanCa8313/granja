@@ -1,4 +1,5 @@
 import Dexie, { type EntityTable } from 'dexie';
+import whatsappHistoricalData from './whatsappHistoricalData.json';
 
 export type CategoriaGastoHogar =
   | 'mercado'
@@ -215,7 +216,6 @@ export async function seedInitialGranjaData(): Promise<void> {
 
 export async function cargarHistorialWhatsAppEnDexie(force = false): Promise<{ gastosCargados: number; abonosCargados: number }> {
   try {
-    const whatsappData = await import('./whatsappHistoricalData.json');
     const currentCount = await db.gastosHogar.count();
     if (currentCount > 50 && !force) {
       return { gastosCargados: 0, abonosCargados: 0 };
@@ -226,8 +226,9 @@ export async function cargarHistorialWhatsAppEnDexie(force = false): Promise<{ g
       await db.abonosSocios.clear();
     }
 
-    const gastos = (whatsappData.default?.gastos || whatsappData.gastos || []) as GastoHogar[];
-    const abonos = (whatsappData.default?.abonos || whatsappData.abonos || []) as AbonoSocio[];
+    const rawData = whatsappHistoricalData as { gastos?: GastoHogar[]; abonos?: AbonoSocio[] };
+    const gastos = (rawData.gastos || []) as GastoHogar[];
+    const abonos = (rawData.abonos || []) as AbonoSocio[];
 
     if (gastos.length > 0) {
       await db.gastosHogar.bulkPut(gastos);

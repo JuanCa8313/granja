@@ -56,72 +56,111 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+function buildAuthUserFromSupabase(supabaseUser: {
+  id: string;
+  email?: string;
+  user_metadata?: Record<string, unknown>;
+}): AuthUserGranja {
+  const email = (supabaseUser.email || '').toLowerCase().trim();
+  const fullName =
+    typeof supabaseUser.user_metadata?.full_name === 'string'
+      ? supabaseUser.user_metadata.full_name
+      : '';
+  const name = fullName || email.split('@')[0] || 'Usuario';
+  const isOwner = AUTHORIZED_EMAILS.includes(email);
+  return {
+    id: supabaseUser.id,
+    email,
+    name,
+    roles: isOwner ? ['administrador'] : ['operador_granja'],
+    granjaNombre: 'Granja Matriz 2.200 msnm',
+    fincaNombre: 'Granja Matriz 2.200 msnm',
+  };
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AuthUserGranja | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const isLoggingOutRef = React.useRef<boolean>(false);
 
   useEffect(() => {
-    // 1. Cargar sesión guardada en localStorage
+    let isMounted = true;
+
+    // 1. Cargar sesión guardada en localStorage (acceso 100% inmediato en offline)
     const savedUser = localStorage.getItem('granja_auth_user') || localStorage.getItem('finca_auth_user');
     if (savedUser) {
       try {
-        setUser(JSON.parse(savedUser));
+        const parsed = JSON.parse(savedUser);
+        if (parsed && parsed.email) {
+          setUser(parsed);
+        }
       } catch (e) {
         console.error('Error parseando usuario guardado', e);
       }
     }
     setIsLoading(false);
 
-    // 2. Supabase Auth listener
+    // 2. Supabase Auth listener (resiliente a modo offline)
     const supabase = getSupabaseClient();
-    if (supabase) {
-      supabase.auth.getSession().then(({ data: { session } }) => {
-        if (session?.user) {
-          const email = (session.user.email || '').toLowerCase().trim();
-          const name = session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || 'Usuario';
-          const isOwner = AUTHORIZED_EMAILS.includes(email) || email.includes('juanca') || email.includes('alex');
-          const newUser: AuthUserGranja = {
-            id: session.user.id,
-            email,
-            name,
-            roles: isOwner ? ['administrador'] : ['operador_granja'],
-            granjaNombre: 'Granja Matriz 2.200 msnm',
-            fincaNombre: 'Granja Matriz 2.200 msnm',
-          };
+    if (!supabase) {
+      return;
+    }
+
+    const verificarSesionRemota = async () => {
+      if (typeof navigator !== 'undefined' && !navigator.onLine) {
+        return;
+      }
+      let timeoutId: ReturnType<typeof setTimeout> | undefined;
+      try {
+        type SessionResult = Awaited<ReturnType<typeof supabase.auth.getSession>> | null;
+        const sessionPromise = supabase.auth.getSession();
+        const timeoutPromise = new Promise<null>((_, reject) => {
+          timeoutId = setTimeout(() => reject(new Error('Auth timeout')), 3500);
+        });
+        const result = (await Promise.race([sessionPromise, timeoutPromise])) as SessionResult;
+        const session = result?.data?.session;
+        if (isMounted && session?.user) {
+          const newUser = buildAuthUserFromSupabase(session.user);
           setUser(newUser);
           localStorage.setItem('granja_auth_user', JSON.stringify(newUser));
         }
-      });
+      } catch {
+        // Ignorar errores de red en modo offline y conservar la sesión local
+      } finally {
+        if (timeoutId !== undefined) {
+          clearTimeout(timeoutId);
+        }
+      }
+    };
 
-      const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-        if (event === 'SIGNED_OUT') {
+    verificarSesionRemota();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (!isMounted) return;
+
+      if (event === 'SIGNED_OUT') {
+        // Solo cerrar sesión local si fue un logout explícito del usuario (evita expulsión cuando falla refresh offline)
+        if (isLoggingOutRef.current) {
           setUser(null);
           localStorage.removeItem('granja_auth_user');
           localStorage.removeItem('finca_auth_user');
-        } else if (session?.user) {
-          const email = (session.user.email || '').toLowerCase().trim();
-          const name = session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || 'Usuario';
-          const isOwner = AUTHORIZED_EMAILS.includes(email) || email.includes('juanca') || email.includes('alex');
-          const newUser: AuthUserGranja = {
-            id: session.user.id,
-            email,
-            name,
-            roles: isOwner ? ['administrador'] : ['operador_granja'],
-            granjaNombre: 'Granja Matriz 2.200 msnm',
-            fincaNombre: 'Granja Matriz 2.200 msnm',
-          };
-          setUser(newUser);
-          localStorage.setItem('granja_auth_user', JSON.stringify(newUser));
+          isLoggingOutRef.current = false;
         }
-      });
+      } else if (session?.user) {
+        const newUser = buildAuthUserFromSupabase(session.user);
+        setUser(newUser);
+        localStorage.setItem('granja_auth_user', JSON.stringify(newUser));
+      }
+    });
 
-      return () => {
-        subscription.unsubscribe();
-      };
-    }
+    return () => {
+      isMounted = false;
+      subscription.unsubscribe();
+    };
   }, []);
 
   const loginRapido = (rol: AppRoleGranja, socio?: 'Juanca' | 'Alex') => {
+    isLoggingOutRef.current = false;
     if (rol === 'administrador') {
       const isAlex = socio === 'Alex';
       const newUser: AuthUserGranja = {
@@ -170,13 +209,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const logout = async () => {
-    const supabase = getSupabaseClient();
-    if (supabase) {
-      await supabase.auth.signOut();
-    }
+    isLoggingOutRef.current = true;
     setUser(null);
     localStorage.removeItem('granja_auth_user');
     localStorage.removeItem('finca_auth_user');
+    const supabase = getSupabaseClient();
+    if (supabase && typeof navigator !== 'undefined' && navigator.onLine) {
+      try {
+        await supabase.auth.signOut();
+      } catch {
+        // Ignorar errores de red al cerrar sesión
+      }
+    }
   };
 
   const isAdmin = !!user?.roles.includes('administrador');
