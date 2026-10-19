@@ -69,6 +69,21 @@ function clasificarCategoria(texto) {
     return 'cultivo';
   }
 
+  // 7. Créditos y préstamos (cuota, crédito, banco, tarjeta, préstamo, leasing)
+  if (
+    t.includes('crédito') ||
+    t.includes('credito') ||
+    t.includes('prestamo') ||
+    t.includes('préstamo') ||
+    t.includes('cuota') ||
+    t.includes('hipoteca') ||
+    t.includes('leasing') ||
+    t.includes('tarjeta de credito') ||
+    t.includes('tarjeta de crédito')
+  ) {
+    return 'creditos';
+  }
+
   // Servicios
   if (
     t.includes('agua') ||

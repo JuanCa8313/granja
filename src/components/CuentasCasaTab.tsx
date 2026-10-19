@@ -41,6 +41,7 @@ import {
   Egg,
   Sprout,
   Milk,
+  CreditCard,
 } from 'lucide-react';
 
 const MESES = [
@@ -243,6 +244,7 @@ export function CuentasCasaTab() {
     tilapia: { label: 'Tilapia', icon: Fish, color: 'text-teal-700 bg-teal-50 border-teal-300' },
     vaca: { label: 'Vaca', icon: Milk, color: 'text-lime-700 bg-lime-50 border-lime-300' },
     cultivo: { label: 'Cultivo', icon: Sprout, color: 'text-emerald-700 bg-emerald-50 border-emerald-300' },
+    creditos: { label: 'Créditos', icon: CreditCard, color: 'text-violet-700 bg-violet-50 border-violet-300' },
   };
 
   const sincronizarFiltroConFecha = (fechaRegistro: string) => {

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generadoEl": "2026-10-19T14:33:02.601Z",
+  "generadoEl": "2026-10-19T15:26:21.912Z",
   "gastos": [
     {
       "id": "gh-wa-1",
@@ -2306,7 +2306,7 @@
     {
       "id": "gh-wa-183",
       "fecha": "2024-10-17",
-      "categoria": "imprevisto",
+      "categoria": "creditos",
       "descripcion": "Préstamo de Alex a Camilo de de Registro",
       "monto": 425000,
       "metodoPago": "efectivo",
@@ -3814,7 +3814,7 @@
     {
       "id": "gh-wa-304",
       "fecha": "2024-12-31",
-      "categoria": "imprevisto",
+      "categoria": "creditos",
       "descripcion": "Cuota comida",
       "monto": 50000,
       "metodoPago": "efectivo",
@@ -9001,7 +9001,7 @@
     {
       "id": "gh-wa-712",
       "fecha": "2025-09-29",
-      "categoria": "servicios",
+      "categoria": "creditos",
       "descripcion": "Administración y cuota extra",
       "monto": 370000,
       "metodoPago": "efectivo",
@@ -10873,7 +10873,7 @@
     {
       "id": "gh-wa-858",
       "fecha": "2026-01-04",
-      "categoria": "servicios",
+      "categoria": "creditos",
       "descripcion": "Cuotas administración",
       "monto": 210000,
       "metodoPago": "efectivo",

@@ -14,7 +14,8 @@ export type CategoriaGastoHogar =
   | 'pollos'
   | 'gallinas'
   | 'vaca'
-  | 'cultivo';
+  | 'cultivo'
+  | 'creditos';
 
 export interface GastoHogar {
   id: string;
