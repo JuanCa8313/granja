@@ -14,8 +14,11 @@ import { pushCambiosLocalesASupabase, notificarCambioDatos, eliminarRegistroRemo
 import {
   formatCOP,
   formatFechaCorta,
+  formatFechaCompleta,
   getFechaLocalYYYYMMDD,
   ordenarMovimientosRecientesPrimero,
+  formatNumeroMiles,
+  parseNumeroMiles,
 } from '../lib/utils';
 import {
   Wallet,
@@ -262,7 +265,7 @@ export function CuentasCasaTab() {
 
   const handleGuardarGasto = async (e: React.FormEvent) => {
     e.preventDefault();
-    const valor = parseFloat(montoGasto);
+    const valor = parseNumeroMiles(montoGasto);
     if (!valor || valor <= 0) return;
 
     const fechaFinal = fechaGasto || getFechaLocalYYYYMMDD();
@@ -290,7 +293,7 @@ export function CuentasCasaTab() {
 
   const handleGuardarAbono = async (e: React.FormEvent) => {
     e.preventDefault();
-    const valor = parseFloat(montoAbono);
+    const valor = parseNumeroMiles(montoAbono);
     if (!valor || valor <= 0) return;
 
     const emisor = pagadoPorAbono;
@@ -320,7 +323,7 @@ export function CuentasCasaTab() {
 
   const handleGuardarRetiro = async (e: React.FormEvent) => {
     e.preventDefault();
-    const valor = parseFloat(montoRetiro);
+    const valor = parseNumeroMiles(montoRetiro);
     if (!valor || valor <= 0) return;
 
     const fechaFinal = fechaRetiro || getFechaLocalYYYYMMDD();
@@ -376,7 +379,7 @@ export function CuentasCasaTab() {
     setActiveSubTab('abonos');
     setPagadoPorAbono(deudor);
     setRecibidoPorAbono(acreedor);
-    setMontoAbono(Math.round(monto).toString());
+    setMontoAbono(formatNumeroMiles(Math.round(monto)));
     setDescAbono(`Abono para saldar cuentas (${deudor} a ${acreedor})`);
   };
 
@@ -721,11 +724,11 @@ export function CuentasCasaTab() {
               <div className="relative">
                 <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm">$</span>
                 <input
-                  type="number"
+                  type="text"
                   inputMode="numeric"
                   required
                   value={montoGasto}
-                  onChange={(e) => setMontoGasto(e.target.value)}
+                  onChange={(e) => setMontoGasto(formatNumeroMiles(e.target.value))}
                   placeholder="0"
                   className="w-full pl-7 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-black text-base text-slate-900 focus:outline-none focus:ring-2 focus:ring-rose-500"
                 />
@@ -864,11 +867,11 @@ export function CuentasCasaTab() {
               <div className="relative">
                 <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm">$</span>
                 <input
-                  type="number"
+                  type="text"
                   inputMode="numeric"
                   required
                   value={montoAbono}
-                  onChange={(e) => setMontoAbono(e.target.value)}
+                  onChange={(e) => setMontoAbono(formatNumeroMiles(e.target.value))}
                   placeholder="0"
                   className="w-full pl-7 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-black text-base text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />
@@ -992,11 +995,11 @@ export function CuentasCasaTab() {
               <div className="relative">
                 <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm">$</span>
                 <input
-                  type="number"
+                  type="text"
                   inputMode="numeric"
                   required
                   value={montoRetiro}
-                  onChange={(e) => setMontoRetiro(e.target.value)}
+                  onChange={(e) => setMontoRetiro(formatNumeroMiles(e.target.value))}
                   placeholder="0"
                   className="w-full pl-7 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-black text-base text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 />

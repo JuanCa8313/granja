@@ -3,11 +3,33 @@
  */
 
 export function formatCOP(amount: number): string {
-  return new Intl.NumberFormat('es-CO', {
-    style: 'currency',
-    currency: 'COP',
-    maximumFractionDigits: 0,
-  }).format(amount);
+  if (!Number.isFinite(amount)) return '$ 0';
+  const signo = amount < 0 ? '-' : '';
+  const absEntero = Math.round(Math.abs(amount));
+  const conPuntos = absEntero.toLocaleString('es-CO');
+  return `${signo}$ ${conPuntos}`;
+}
+
+/**
+ * Formatea un número o string numérico agregando puntos de miles y millones (ej: 1550000 -> "1.550.000").
+ */
+export function formatNumeroMiles(value: number | string): string {
+  if (value === '' || value === null || value === undefined) return '';
+  const soloDigitos = String(value).replace(/\D/g, '');
+  if (!soloDigitos) return '';
+  const num = parseInt(soloDigitos, 10);
+  if (isNaN(num)) return '';
+  return num.toLocaleString('es-CO');
+}
+
+/**
+ * Convierte un string con puntos de miles o separadores en un número entero limpio.
+ */
+export function parseNumeroMiles(value: string): number {
+  if (!value) return 0;
+  const soloDigitos = value.replace(/\D/g, '');
+  const parsed = parseInt(soloDigitos, 10);
+  return isNaN(parsed) ? 0 : parsed;
 }
 
 export function formatFechaCorta(fechaStr: string): string {

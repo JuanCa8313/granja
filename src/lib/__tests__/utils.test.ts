@@ -132,12 +132,29 @@ describe('getFechaLocalYYYYMMDD y formateadores', () => {
   });
 
   it('formatea valores en COP y fechas cortas/completas de forma segura', () => {
-    assert.ok(formatCOP(50000).includes('50.000'));
+    assert.equal(formatCOP(50000), '$ 50.000');
+    assert.equal(formatCOP(1550000), '$ 1.550.000');
+    assert.equal(formatCOP(25000000), '$ 25.000.000');
+    assert.equal(formatCOP(-1500000), '-$ 1.500.000');
     assert.equal(formatFechaCorta(''), '');
     assert.ok(formatFechaCorta('2026-10-19').length > 0);
     assert.ok(formatFechaCorta('2026/10/19').length > 0);
     assert.equal(formatFechaCompleta(''), '');
     assert.ok(formatFechaCompleta('2026-10-19').includes('2026'));
     assert.ok(formatFechaCompleta('2026/10/19').includes('2026'));
+  });
+
+  it('formatea y parsea números con puntuación de miles y millones correctamente', async () => {
+    const { formatNumeroMiles, parseNumeroMiles } = await import('../utils.ts');
+    assert.equal(formatNumeroMiles(''), '');
+    assert.equal(formatNumeroMiles('1500'), '1.500');
+    assert.equal(formatNumeroMiles('1550000'), '1.550.000');
+    assert.equal(formatNumeroMiles('123456789'), '123.456.789');
+    assert.equal(formatNumeroMiles('1.550.000'), '1.550.000');
+
+    assert.equal(parseNumeroMiles(''), 0);
+    assert.equal(parseNumeroMiles('1.550.000'), 1550000);
+    assert.equal(parseNumeroMiles('$ 25.000.000'), 25000000);
+    assert.equal(parseNumeroMiles('500'), 500);
   });
 });
